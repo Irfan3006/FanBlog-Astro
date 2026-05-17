@@ -96,28 +96,25 @@ import Layout from '../../layouts/Layout.astro';
       
       const res = await API.getPosts();
       if (res.success) {
-        const prioritySlugs = [
-          'profil-irfan-syarifudin-mahasiswa-teknik-komputer-dan-penggiat-keamanan-siber-id_9q',
-          'panduan-lengkap-cara-mulai-menulis-dan-berbagi-cerita-di-fanblog-id_8e'
-        ];
-
         let allPosts = res.data;
-        let trendingPosts = [];
 
+        function calculateTrendingScore(post) {
+          let baseScore = 100;
 
-        prioritySlugs.forEach(slug => {
-          const post = allPosts.find(p => p.slug === slug);
-          if (post) {
-            trendingPosts.push(post);
-            allPosts = allPosts.filter(p => p.slug !== slug);
-          }
-        });
+          const wordCount = post.content ? post.content.split(/\s+/).length : 0;
+          const lengthBonus = Math.min(wordCount / 8, 50); 
+          baseScore += lengthBonus;
 
+          const createdTime = new Date(post.created_at).getTime();
+          const ageInDays = (Date.now() - createdTime) / (1000 * 60 * 60 * 24);
+          
+          const gravity = 1.5;
+          return baseScore / Math.pow(ageInDays + 1, gravity);
+        }
 
-        const shuffled = allPosts.sort(() => 0.5 - Math.random());
-        
-
-        trendingPosts = [...trendingPosts, ...shuffled].slice(0, 10);
+        const trendingPosts = allPosts
+          .sort((a, b) => calculateTrendingScore(b) - calculateTrendingScore(a))
+          .slice(0, 10);
         
         renderTrending(trendingPosts);
       }
