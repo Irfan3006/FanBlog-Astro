@@ -88,7 +88,63 @@ import Layout from '../../layouts/Layout.astro';
     </div>
 
     <div class="row g-4" id="categories-grid">
-      <!-- Injected via JS -->
+      <!-- Shimmering Skeleton Categories -->
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 70%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 40%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 60%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 30%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 80%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 50%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 50%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 35%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 75%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 45%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 65%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 40%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 70%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 30%; height: 10px;"></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 skeleton-item">
+        <div class="category-card" style="background: rgba(27, 32, 56, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div class="skeleton-box skeleton-avatar mb-3" style="width: 50px; height: 50px;"></div>
+          <div class="skeleton-box skeleton-title mb-2" style="width: 55%; height: 16px;"></div>
+          <div class="skeleton-box skeleton-date" style="width: 35%; height: 10px;"></div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -103,11 +159,20 @@ import Layout from '../../layouts/Layout.astro';
       let allUniqueCats = [...new Set(BLOG_CATEGORIES)];
       let categoryCounts = {};
 
-      const res = await API.getPosts();
-      if (res.success) {
-        res.data.forEach(p => {
-          categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
-        });
+      try {
+        const res = await API.getPosts();
+        if (res.success && Array.isArray(res.data)) {
+          res.data.forEach(p => {
+            if (p.category) {
+              categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
+              if (!allUniqueCats.includes(p.category)) {
+                allUniqueCats.push(p.category);
+              }
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load category counts:", err);
       }
 
       allUniqueCats.sort((a, b) => {
