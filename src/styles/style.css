@@ -55,7 +55,7 @@ a {
   transition: var(--transition);
 }
 
-a:hover:not(.badge), .hover-accent:hover {
+a:hover:not(.badge):not(.btn), .hover-accent:hover {
   color: var(--accent) !important;
 }
 
