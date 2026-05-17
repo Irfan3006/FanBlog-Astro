@@ -1,0 +1,362 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+  <Fragment slot="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4FC3F7">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <title>FanBlog - Where Ideas Find Their Voice</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <meta name="description" content="FanBlog adalah platform blog modern, minimalis, dan responsif untuk berbagi ide, cerita, dan informasi kreatif.">
+    <meta name="keywords" content="blog, ugc, fanblog, modern blog, personal blog, google sheets database, irfan syarifudin, coding, tech blog, serverless blogging">
+    <meta name="author" content="Irfan Syarifudin">
+    <link rel="canonical" href="https://fanblog.web.id/">
+
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="LJNBTvEJyMMr3HTyjor9UNaOVa8DmdcRB6hrMWPXwcc" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="FanBlog">
+    <meta property="og:url" content="https://fanblog.web.id/">
+    <meta property="og:title" content="FanBlog - Where Ideas Find Their Voice">
+    <meta property="og:description" content="FanBlog adalah platform blog modern, minimalis, dan responsif untuk berbagi ide, cerita, dan informasi kreatif.">
+    <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta property="og:image:secure_url" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="FanBlog Logo - Where Ideas Find Their Voice">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@fanblog_id">
+    <meta name="twitter:creator" content="@irfansyarifudin">
+    <meta name="twitter:url" content="https://fanblog.web.id/">
+    <meta name="twitter:title" content="FanBlog - Where Ideas Find Their Voice">
+    <meta name="twitter:description" content="FanBlog adalah platform blog modern, minimalis, dan responsif untuk berbagi ide, cerita, dan informasi kreatif.">
+    <meta name="twitter:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta name="twitter:image:alt" content="FanBlog Logo">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script is:inline type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FanBlog",
+    "url": "https://fanblog.web.id/",
+    "description": "FanBlog adalah platform blog modern, minimalis, dan responsif untuk berbagi ide, cerita, dan informasi kreatif.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "FanBlog",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fanblog.web.id/assets/img/logo.webp"
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://fanblog.web.id/pages/explore?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Resource Hints for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://script.google.com">
+  <link rel="dns-prefetch" href="https://ui-avatars.com">
+  <link rel="dns-prefetch" href="https://i.imgur.com">
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  
+  
+  
+  
+  
+  <style>
+    .hero-gradient {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 30%, rgba(79, 195, 247, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .perspective-container { perspective: 2000px; }
+    .hero-card-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--stroke);
+      border-radius: 40px;
+      padding: 60px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+    .feature-icon-box {
+      width: 50px; height: 50px;
+      background: rgba(79, 195, 247, 0.1);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 20px;
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+  </style>
+  </Fragment>
+
+  <header class="container-fluid py-5 mt-5 position-relative overflow-hidden">
+    <div class="hero-gradient"></div>
+    <div class="container py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6" data-aos="fade-right">
+          <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 mb-3">#1 Modern Blogging Platform</span>
+          <h1 class="display-2 fw-bold mb-4">Cara Baru Dalam <br><span class="text-primary">Menulis</span></h1>
+          <p class="text-muted fs-5 mb-5" style="max-width: 500px;">
+            Platform blogging tercepat dengan desain glassmorphism yang memukau. Bagikan ide Anda, bangun audiens, dan jadilah bagian dari masa depan konten digital.
+          </p>
+          <div class="d-flex gap-3">
+            <a href="/pages/signup" class="btn btn-primary btn-lg px-5 shadow-lg">Mulai Sekarang</a>
+            <a href="#feed" class="btn btn-outline-secondary btn-lg px-4">Lihat Cerita</a>
+          </div>
+        </div>
+        <div class="col-lg-6 perspective-container" data-aos="zoom-in">
+          <div class="hero-card-3d" id="heroTilt">
+            <div style="transform: translateZ(50px);">
+              <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="feature-icon-box mb-0"><i class="bi bi-lightning-charge-fill"></i></div>
+                <h4 class="fw-bold mb-0">Ultra Fast Engine</h4>
+              </div>
+              <p class="text-muted mb-4">Menggunakan Google Apps Script API yang dioptimasi untuk kecepatan render instan dan keamanan data tingkat tinggi.</p>
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="stat-card">
+                    <h3 class="fw-bold text-white mb-0">999+</h3>
+                    <small class="text-muted">Topics</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="stat-card">
+                    <h3 class="fw-bold text-white mb-0">99.9%</h3>
+                    <small class="text-muted">Uptime</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card p-4 h-100 border-0 bg-transparent">
+          <div class="feature-icon-box"><i class="bi bi-shield-check"></i></div>
+          <h4 class="fw-bold">Security First</h4>
+          <p class="text-muted">Sanitasi HTML otomatis dan proteksi XSS berlapis menjaga konten Anda tetap aman.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card p-4 h-100 border-0 bg-transparent">
+          <div class="feature-icon-box"><i class="bi bi-markdown"></i></div>
+          <h4 class="fw-bold">Markdown Ready</h4>
+          <p class="text-muted">Tulis dengan format markdown yang fleksibel dan lihat hasilnya secara instan di feed.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card p-4 h-100 border-0 bg-transparent">
+          <div class="feature-icon-box"><i class="bi bi-graph-up-arrow"></i></div>
+          <h4 class="fw-bold">SEO Optimized</h4>
+          <p class="text-muted">Generate Meta Tags, Open Graph, dan Twitter Cards secara dinamis untuk setiap post.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="feed" class="container py-5 my-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5" data-aos="fade-up">
+      <div>
+        <h2 class="display-5 fw-bold mb-0">Jelajahi <span class="text-primary">Cerita.</span></h2>
+        <p class="text-muted mt-2">Dapatkan inspirasi dari berbagai penulis pilihan kami.</p>
+      </div>
+      <div class="mt-4 mt-md-0" style="min-width: 300px;">
+        <div class="input-group shadow-sm">
+          <span class="input-group-text border-end-0 bg-transparent"><i class="bi bi-search"></i></span>
+          <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="Cari artikel...">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row g-4" id="posts-grid">
+           <div class="col-md-4"><div class="card p-5 skeleton" style="height: 350px;"></div></div>
+           <div class="col-md-4"><div class="card p-5 skeleton" style="height: 350px;"></div></div>
+           <div class="col-md-4"><div class="card p-5 skeleton" style="height: 350px;"></div></div>
+        </div>
+        <div id="empty-state" class="text-center py-5 d-none">
+          <i class="bi bi-inbox fs-1 text-muted"></i>
+          <h4 class="mt-3">Belum ada artikel ditemukan</h4>
+          <p class="text-muted">Coba gunakan kata kunci lain atau filter kategori berbeda.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a href="/pages/explore" class="btn btn-outline-primary px-5 py-3 rounded-pill">Lihat Semua Cerita <i class="bi bi-arrow-right ms-2"></i></a>
+    </div>
+  </section>
+
+  <section class="container py-5 mb-5">
+    <div class="card p-5 border-0 text-center position-relative overflow-hidden" data-aos="zoom-in" style="background: rgba(79, 195, 247, 0.03); border: 1px solid var(--stroke) !important; border-radius: 40px;">
+      <div class="hero-gradient" style="opacity: 0.5;"></div>
+      <div class="py-4 position-relative">
+        <h2 class="display-5 fw-bold mb-4">Mulai Perjalanan Anda Bersama <span class="text-primary">FanBlog</span></h2>
+        <p class="text-muted mb-5 mx-auto" style="max-width: 600px;">Daftar gratis hari ini dan bergabunglah dengan ribuan kreator lainnya untuk membangun kehadiran digital Anda.</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="/pages/signup" class="btn btn-primary btn-lg px-5">Gabung Sekarang</a>
+          <a href="/pages/about" class="btn btn-outline-secondary btn-lg px-5">Pelajari Lebih Lanjut</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Fragment slot="scripts">
+    <script is:inline>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AOS.init({ duration: 1000, once: true });
+
+      const heroTilt = document.getElementById('heroTilt');
+      if (heroTilt) {
+        heroTilt.addEventListener('mousemove', (e) => {
+          const rect = heroTilt.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotateX = (rect.height / 2 - y) / 20;
+          const rotateY = (x - rect.width / 2) / 20;
+          heroTilt.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        heroTilt.addEventListener('mouseleave', () => {
+          heroTilt.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        });
+      }
+
+      const grid = document.getElementById('posts-grid');
+      let allPosts = [];
+
+      function getDefaultPosts() {
+        const pinnedSlugs = [
+          'profil-irfan-syarifudin-mahasiswa-teknik-komputer-dan-penggiat-keamanan-siber-id_9q',
+          'panduan-lengkap-cara-mulai-menulis-dan-berbagi-cerita-di-fanblog-id_8e',
+        ];
+        const pinnedPosts = pinnedSlugs.map(slug => allPosts.find(p => p.slug === slug)).filter(Boolean);
+        const latestPost = allPosts.find(p => !pinnedSlugs.includes(p.slug));
+        
+        const displayPosts = [];
+        if (latestPost) displayPosts.push(latestPost);
+        displayPosts.push(...pinnedPosts);
+        
+        return displayPosts;
+      }
+
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const catFilter = urlParams.get('category');
+        if (catFilter) {
+          document.title = `${catFilter} - FanBlog`;
+        }
+
+        const res = await API.getPosts();
+        if (res.success) {
+          allPosts = res.data;
+          if (catFilter) {
+            renderPosts(allPosts.filter(p => p.category === catFilter));
+          } else {
+            renderPosts(getDefaultPosts());
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load posts", err);
+      }
+
+      function renderPosts(posts) {
+        grid.innerHTML = '';
+        if (posts.length === 0) {
+          document.getElementById('empty-state').classList.remove('d-none');
+          return;
+        }
+        document.getElementById('empty-state').classList.add('d-none');
+
+        const html = posts.map(post => {
+          const thumb = escapeHTML(post.thumbnail || '/assets/img/logo.webp');
+          const date = formatDate(post.created_at);
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = sanitizeHTML(post.content);
+          const excerpt = tempDiv.textContent.substring(0, 100) + '...';
+
+          return `
+            <div class="col-md-4 mb-4" data-aos="fade-up">
+              <div class="card h-100 position-relative animate-up">
+                ${ProgressiveImage.cardThumbnail(thumb, escapeHTML(post.title))}
+                <div class="card-body d-flex flex-column">
+                  <a href="/pages/explore?category=${encodeURIComponent(post.category)}" class="badge bg-primary bg-opacity-10 text-primary mb-2 align-self-start text-decoration-none">${escapeHTML(post.category)}</a>
+                  <h5 class="card-title fw-bold">
+                    <a href="/post/${encodeURIComponent(post.slug)}" class="text-decoration-none text-white hover-accent stretched-link">
+                      ${escapeHTML(post.title)}
+                    </a>
+                  </h5>
+                  <p class="card-text text-muted small flex-grow-1">${escapeHTML(excerpt)}</p>
+                  <div class="d-flex align-items-center mt-3 pt-3 border-top border-secondary border-opacity-10">
+                    <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img me-2" style="width:25px;height:25px;" referrerpolicy="no-referrer">
+                    <div class="small lh-1">
+                      <span class="text-white d-block fw-600 mb-1">${escapeHTML(post.author_name)}</span>
+                      <span class="text-muted" style="font-size: 0.75rem;">${date}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        grid.innerHTML = html;
+
+        ProgressiveImage.observe();
+      }
+
+      document.getElementById('searchInput').addEventListener('input', debounce((e) => {
+        const query = e.target.value.toLowerCase();
+        if (!query) {
+          renderPosts(getDefaultPosts());
+          return;
+        }
+        const filtered = allPosts.filter(p => p.title.toLowerCase().includes(query) || p.content.toLowerCase().includes(query));
+        renderPosts(filtered.slice(0, 3));
+      }, 250));
+    });
+  </script>
+  </Fragment>
+</Layout>
