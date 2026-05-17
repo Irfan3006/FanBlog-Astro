@@ -55,8 +55,16 @@ a {
   transition: var(--transition);
 }
 
-a:hover, .hover-accent:hover {
+a:hover:not(.badge), .hover-accent:hover {
   color: var(--accent) !important;
+}
+
+a.badge {
+  transition: var(--transition);
+}
+
+a.badge:hover {
+  opacity: 0.85;
 }
 
 /* Bootstrap Overrides */
