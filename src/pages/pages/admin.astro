@@ -1,28 +1,63 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
 ---
+
 <Layout>
   <Fragment slot="head">
-    <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - FanBlog</title>
-  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-  <meta name="robots" content="noindex, nofollow">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  
-  <script is:inline src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
-  <style>
-    .admin-card { border-left: 4px solid var(--accent); }
-    .table, .table tr, .table td { background-color: transparent !important; color: var(--paragraph) !important; }
-    .table { margin-bottom: 0; }
-    .table thead th { background: rgba(255, 255, 255, 0.04) !important; color: var(--headline) !important; border: none; font-weight: 600; padding: 1.2rem 1rem; }
-    .table td { border-color: rgba(255,255,255,0.05) !important; padding: 1.2rem 1rem; }
-    .table-hover tbody tr:hover { background-color: rgba(255,255,255,0.02) !important; color: var(--headline); }
-    .badge-admin { background: rgba(239, 68, 68, 0.1) !important; color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.2); }
-    .badge-user { background: rgba(79, 195, 247, 0.1) !important; color: var(--accent) !important; border: 1px solid rgba(79, 195, 247, 0.2); }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - FanBlog</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style is:global>
+      .admin-card {
+        border-left: 4px solid var(--accent);
+      }
+      .table,
+      .table tr,
+      .table td {
+        background-color: transparent !important;
+        color: var(--paragraph) !important;
+        box-shadow: none !important;
+      }
+      .table {
+        margin-bottom: 0;
+      }
+      .table thead th {
+        background: rgba(255, 255, 255, 0.04) !important;
+        color: var(--headline) !important;
+        border: none;
+        font-weight: 600;
+        padding: 1.2rem 1rem;
+        box-shadow: none !important;
+      }
+      .table td {
+        border-color: rgba(255, 255, 255, 0.05) !important;
+        padding: 1.2rem 1rem;
+      }
+      .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.02) !important;
+        color: var(--headline);
+      }
+      .table-hover tbody tr:hover td {
+        background-color: transparent !important;
+        color: inherit !important;
+      }
+      .badge-admin {
+        background: rgba(239, 68, 68, 0.1) !important;
+        color: #ef4444 !important;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+      .badge-user {
+        background: rgba(79, 195, 247, 0.1) !important;
+        color: var(--accent) !important;
+        border: 1px solid rgba(79, 195, 247, 0.2);
+      }
+    </style>
   </Fragment>
 
   <div class="container-fluid my-4 px-4" id="admin-dashboard-container" style="display: none;">
@@ -144,67 +179,70 @@ import Layout from '../../layouts/Layout.astro';
 
   <Fragment slot="scripts">
     <script is:inline>
-    document.addEventListener('DOMContentLoaded', async () => {
-      Auth.requireAdmin();
-      const user = Auth.getSession();
-      if (user && user.role === 'admin') {
-        document.getElementById('admin-dashboard-container').style.display = 'block';
-      }
-      let users = [];
-      let posts = [];
+      document.addEventListener("DOMContentLoaded", async () => {
+        Auth.requireAdmin();
+        const user = Auth.getSession();
+        if (user && user.role === "admin") {
+          document.getElementById("admin-dashboard-container").style.display = "block";
+        }
+        let users = [];
+        let posts = [];
 
-      async function loadData() {
-        const [usersRes, postsRes] = await Promise.all([API.getUsers(), API.getPosts()]);
-        if(usersRes.success) {
-          users = usersRes.data;
-          document.getElementById('stat-users').innerText = users.length;
-          renderUsers(users);
+        async function loadData() {
+          const [usersRes, postsRes] = await Promise.all([API.getUsers(), API.getPosts()]);
+          if (usersRes.success) {
+            users = usersRes.data;
+            document.getElementById("stat-users").innerText = users.length;
+            renderUsers(users);
+          }
+          if (postsRes.success) {
+            posts = postsRes.data;
+            document.getElementById("stat-posts").innerText = posts.length;
+            renderPosts(posts);
+          }
         }
-        if(postsRes.success) {
-          posts = postsRes.data;
-          document.getElementById('stat-posts').innerText = posts.length;
-          renderPosts(posts);
-        }
-      }
 
-      function renderUsers(usersList) {
-        const tbody = document.getElementById('users-table-body');
-        if(usersList.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center">Pengguna tidak ditemukan</td></tr>';
-          return;
-        }
-        tbody.innerHTML = usersList.map(u => {
-          const safeUsername = escapeHTML(u.username);
-          const safeEmail = escapeHTML(u.email);
-          const safeAvatar = escapeHTML(u.avatar || '');
-          const safeRole = escapeHTML(u.role);
-          return `
+        function renderUsers(usersList) {
+          const tbody = document.getElementById("users-table-body");
+          if (usersList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">Pengguna tidak ditemukan</td></tr>';
+            return;
+          }
+          tbody.innerHTML = usersList
+            .map((u) => {
+              const safeUsername = escapeHTML(u.username);
+              const safeEmail = escapeHTML(u.email);
+              const safeAvatar = escapeHTML(u.avatar || "");
+              const safeRole = escapeHTML(u.role);
+              return `
           <tr>
             <td><img src="${safeAvatar}" class="rounded-circle-img" style="width:40px;height:40px;border: 1px solid var(--stroke);" referrerpolicy="no-referrer"></td>
             <td class="fw-600 text-white">${safeUsername}</td>
             <td style="color: var(--paragraph); opacity: 0.8;">${safeEmail}</td>
-            <td><span class="badge ${u.role === 'admin' ? 'badge-admin' : 'badge-user'} text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">${safeRole}</span></td>
+            <td><span class="badge ${u.role === "admin" ? "badge-admin" : "badge-user"} text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">${safeRole}</span></td>
             <td style="color: var(--paragraph); opacity: 0.6; font-size:0.85rem;">${formatDate(u.created_at)}</td>
             <td>
               ${u.id !== user.id ? `<button class="btn btn-sm btn-link text-danger p-0" onclick="deleteUser('${escapeHTML(u.id)}')" title="Hapus Pengguna"><i class="bi bi-trash3 fs-5"></i></button>` : '<span class="badge bg-secondary bg-opacity-10 text-muted">YOU</span>'}
             </td>
           </tr>
         `;
-        }).join('');
-      }
-
-      function renderPosts(postsList) {
-        const tbody = document.getElementById('posts-table-body');
-        if(postsList.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" class="text-center">Postingan tidak ditemukan</td></tr>';
-          return;
+            })
+            .join("");
         }
-        tbody.innerHTML = postsList.map(p => {
-          const safeTitle = escapeHTML(p.title);
-          const safeAuthor = escapeHTML(p.author_name);
-          const safeCategory = escapeHTML(p.category);
-          const safeSlug = encodeURIComponent(p.slug);
-          return `
+
+        function renderPosts(postsList) {
+          const tbody = document.getElementById("posts-table-body");
+          if (postsList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Postingan tidak ditemukan</td></tr>';
+            return;
+          }
+          tbody.innerHTML = postsList
+            .map((p) => {
+              const safeTitle = escapeHTML(p.title);
+              const safeAuthor = escapeHTML(p.author_name);
+              const safeCategory = escapeHTML(p.category);
+              const safeSlug = encodeURIComponent(p.slug);
+              return `
           <tr>
             <td class="fw-600"><a href="/post/${safeSlug}" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none hover-accent">${safeTitle}</a></td>
             <td style="color: var(--paragraph);">${safeAuthor}</td>
@@ -218,57 +256,62 @@ import Layout from '../../layouts/Layout.astro';
             </td>
           </tr>
         `;
-        }).join('');
-      }
-
-      window.deleteUser = async (id) => {
-        const result = await Swal.fire({
-          title: 'Apakah Anda yakin?',
-          text: "Ini juga akan menghapus semua postingan dari pengguna ini!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#dc3545',
-          confirmButtonText: 'Ya, hapus pengguna',
-          cancelButtonText: 'Batal'
-        });
-        if (result.isConfirmed) {
-          const res = await API.deleteUser(id, user.id);
-          if (res.success) {
-            showToast('success', 'Pengguna berhasil dihapus');
-            loadData();
-          } else { showToast('error', 'Error', res.message); }
+            })
+            .join("");
         }
-      };
 
-      window.deletePost = async (id) => {
-        const result = await Swal.fire({
-          title: 'Apakah Anda yakin?',
-          text: "Anda akan menghapus postingan ini.",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#dc3545',
-          confirmButtonText: 'Ya, hapus postingan',
-          cancelButtonText: 'Batal'
+        window.deleteUser = async (id) => {
+          const result = await Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Ini juga akan menghapus semua postingan dari pengguna ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            confirmButtonText: "Ya, hapus pengguna",
+            cancelButtonText: "Batal",
+          });
+          if (result.isConfirmed) {
+            const res = await API.deleteUser(id, user.id);
+            if (res.success) {
+              showToast("success", "Pengguna berhasil dihapus");
+              loadData();
+            } else {
+              showToast("error", "Error", res.message);
+            }
+          }
+        };
+
+        window.deletePost = async (id) => {
+          const result = await Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Anda akan menghapus postingan ini.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            confirmButtonText: "Ya, hapus postingan",
+            cancelButtonText: "Batal",
+          });
+          if (result.isConfirmed) {
+            const res = await API.deletePost(id, user.id);
+            if (res.success) {
+              showToast("success", "Postingan berhasil dihapus");
+              loadData();
+            } else {
+              showToast("error", "Error", res.message);
+            }
+          }
+        };
+
+        const triggerTabList = [].slice.call(document.querySelectorAll(".list-group-item"));
+        triggerTabList.forEach(function (triggerEl) {
+          triggerEl.addEventListener("click", function (e) {
+            e.preventDefault();
+            triggerTabList.forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
         });
-        if (result.isConfirmed) {
-          const res = await API.deletePost(id, user.id);
-          if (res.success) {
-            showToast('success', 'Postingan berhasil dihapus');
-            loadData();
-          } else { showToast('error', 'Error', res.message); }
-        }
-      };
-
-      const triggerTabList = [].slice.call(document.querySelectorAll('.list-group-item'))
-      triggerTabList.forEach(function (triggerEl) {
-        triggerEl.addEventListener('click', function (e) {
-          e.preventDefault()
-          triggerTabList.forEach(el => el.classList.remove('active'))
-          this.classList.add('active')
-        })
+        loadData();
       });
-      loadData();
-    });
-  </script>
+    </script>
   </Fragment>
 </Layout>
