@@ -1,63 +1,63 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 	<loc>https://fanblog.web.id/</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/signup.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/signup</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/explore.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/explore</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/about.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/about</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/login.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/login</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/categories.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/categories</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/trending.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/trending</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/faq.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/faq</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/guidelines.html</loc>
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/guidelines</loc>
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/panduan-lengkap-cara-mulai-menulis-dan-berbagi-cerita-di-fanblog-id_8e</loc>	
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/post/panduan-lengkap-cara-mulai-menulis-dan-berbagi-cerita-di-fanblog-id_8e</loc>	
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.7</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/profil-irfan-syarifudin-mahasiswa-teknik-komputer-dan-penggiat-keamanan-siber-id_9q</loc>	
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/post/profil-irfan-syarifudin-mahasiswa-teknik-komputer-dan-penggiat-keamanan-siber-id_9q</loc>	
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.7</priority>
 </url>
 <url>
-	<loc>https://fanblog.web.id/pages/wajah-kusam-hilang-dalam-semalam-cukup-3-langkah-rahasia-ini-pemula-wajib-tahu-id_ja</loc>	
-	<lastmod>2026-05-15T11:47:46+01:00</lastmod>
+	<loc>https://fanblog.web.id/post/wajah-kusam-hilang-dalam-semalam-cukup-3-langkah-rahasia-ini-pemula-wajib-tahu-id_ja</loc>	
+	<lastmod>2026-05-18T10:19:00+07:00</lastmod>
 	<priority>0.7</priority>
 </url>
 </urlset>
