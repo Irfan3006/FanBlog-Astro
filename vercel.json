@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/pages/admin"
+      "destination": "/admin"
     }
   ],
   "headers": [
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "source": "/pages/admin(.*)",
+      "source": "/admin(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "source": "/pages/login(.*)",
+      "source": "/login(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "source": "/pages/signup(.*)",
+      "source": "/signup(.*)",
       "headers": [
         {
           "key": "Cache-Control",

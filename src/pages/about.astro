@@ -1,42 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#4FC3F7">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <title>About Us - FanBlog</title>
-  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-  <meta name="description" content="Pelajari lebih lanjut tentang FanBlog, visi kami dalam mendemokratisasi penulisan digital, dan teknologi serverless di balik platform blogging modern ini.">
-  <meta name="keywords" content="blog, ugc, fanblog, visi fanblog, teknologi blog, serverless blogging, irfan syarifudin">
-  <meta name="author" content="Irfan Syarifudin">
-  <link rel="canonical" href="https://fanblog.web.id/pages/about.html">
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+  <Fragment slot="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4FC3F7">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <title>About Us - FanBlog</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <meta name="description" content="Pelajari lebih lanjut tentang FanBlog, visi kami dalam mendemokratisasi penulisan digital, dan teknologi serverless di balik platform blogging modern ini.">
+    <meta name="keywords" content="blog, ugc, fanblog, visi fanblog, teknologi blog, serverless blogging, irfan syarifudin, future blog, tech architecture">
+    <meta name="author" content="Irfan Syarifudin">
+    <link rel="canonical" href="https://fanblog.web.id/about">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="id_ID">
-  <meta property="og:site_name" content="FanBlog">
-  <meta property="og:url" content="https://fanblog.web.id/pages/about.html">
-  <meta property="og:title" content="About Us - FanBlog">
-  <meta property="og:description" content="Temukan cerita di balik FanBlog dan bagaimana kami membangun platform blogging modern menggunakan Google Sheets dan Apps Script.">
-  <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="FanBlog">
+    <meta property="og:url" content="https://fanblog.web.id/about">
+    <meta property="og:title" content="About Us - FanBlog">
+    <meta property="og:description" content="Temukan cerita di balik FanBlog dan bagaimana kami membangun platform blogging modern menggunakan Google Sheets dan Apps Script.">
+    <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta property="og:image:secure_url" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="FanBlog Logo - About Us">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@fanblog">
-  <meta name="twitter:creator" content="@irfansyarifudin">
-  <meta name="twitter:url" content="https://fanblog.web.id/pages/about.html">
-  <meta name="twitter:title" content="About Us - FanBlog">
-  <meta name="twitter:description" content="Temukan cerita di balik FanBlog dan bagaimana kami membangun platform blogging modern menggunakan Google Sheets dan Apps Script.">
-  <meta name="twitter:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@fanblog_id">
+    <meta name="twitter:creator" content="@irfansyarifudin">
+    <meta name="twitter:url" content="https://fanblog.web.id/about">
+    <meta name="twitter:title" content="About Us - FanBlog">
+    <meta name="twitter:description" content="Temukan cerita di balik FanBlog dan bagaimana kami membangun platform blogging modern menggunakan Google Sheets dan Apps Script.">
+    <meta name="twitter:image" content="https://fanblog.web.id/assets/img/logo.webp">
+    <meta name="twitter:image:alt" content="FanBlog Logo">
 
   <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About Us - FanBlog",
-    "url": "https://fanblog.web.id/pages/about.html",
+    "url": "https://fanblog.web.id/about",
     "description": "Pelajari lebih lanjut tentang FanBlog, visi kami dalam mendemokratisasi penulisan digital, dan teknologi serverless di balik platform blogging modern ini.",
     "publisher": {
       "@type": "Organization",
@@ -50,12 +58,12 @@
   </script>
   
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
-  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  
+  <script is:inline src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  
   <style>
     body {
       overflow-x: hidden;
@@ -150,10 +158,7 @@
       margin-bottom: 10px;
     }
   </style>
-</head>
-<body>
-
-  <div id="navbar-placeholder"></div>
+  </Fragment>
 
   <!-- Hero Section -->
   <section class="container py-5 mt-5">
@@ -291,7 +296,7 @@
             <h2 class="display-5 fw-bold mb-3">Siap Menjadi Visioner?</h2>
             <p class="text-muted mb-5">Daftar sekarang dan mulailah membangun pengaruh Anda di platform paling modern saat ini.</p>
             <div class="d-flex justify-content-center gap-3">
-               <a href="/pages/signup.html" class="btn btn-primary btn-lg px-5 shadow">Bergabung Gratis</a>
+               <a href="/signup" class="btn btn-primary btn-lg px-5 shadow">Bergabung Gratis</a>
                <a href="/" class="btn btn-outline-secondary btn-lg px-5">Lihat Hasil</a>
             </div>
           </div>
@@ -299,13 +304,8 @@
     </div>
   </main>
 
-  <div id="footer-placeholder"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="/assets/js/api.js"></script>
-  <script src="/assets/js/app.js"></script>
-  <script>
+  <Fragment slot="scripts">
+    <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       AOS.init({ duration: 1000, once: true });
 
@@ -346,5 +346,5 @@
       apply3DEffect('ctaCard', 'ctaGlare');
     });
   </script>
-</body>
-</html>
+  </Fragment>
+</Layout>

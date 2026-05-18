@@ -1,5 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
@@ -250,7 +250,7 @@ import Layout from "../../layouts/Layout.astro";
             <td style="color: var(--paragraph); opacity: 0.6; font-size:0.85rem;">${formatDate(p.created_at)}</td>
             <td>
               <div class="d-flex gap-2">
-                <a href="/pages/edit-post?id=${encodeURIComponent(p.id)}" class="btn btn-sm btn-link text-primary p-0" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
+                <a href="/edit-post?id=${encodeURIComponent(p.id)}" class="btn btn-sm btn-link text-primary p-0" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
                 <button class="btn btn-sm btn-link text-danger p-0" onclick="deletePost('${escapeHTML(p.id)}')" title="Hapus"><i class="bi bi-trash3 fs-5"></i></button>
               </div>
             </td>

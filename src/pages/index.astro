@@ -61,7 +61,7 @@ import Layout from '../layouts/Layout.astro';
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://fanblog.web.id/pages/explore?q={search_term_string}"
+        "urlTemplate": "https://fanblog.web.id/explore?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }
@@ -130,7 +130,7 @@ import Layout from '../layouts/Layout.astro';
             Platform blogging tercepat dengan desain glassmorphism yang memukau. Bagikan ide Anda, bangun audiens, dan jadilah bagian dari masa depan konten digital.
           </p>
           <div class="d-flex gap-3">
-            <a href="/pages/signup" class="btn btn-primary btn-lg px-5 shadow-lg">Mulai Sekarang</a>
+            <a href="/signup" class="btn btn-primary btn-lg px-5 shadow-lg">Mulai Sekarang</a>
             <a href="#feed" class="btn btn-outline-secondary btn-lg px-4">Lihat Cerita</a>
           </div>
         </div>
@@ -279,7 +279,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
     
     <div class="text-center mt-5" data-aos="fade-up">
-      <a href="/pages/explore" class="btn btn-outline-primary px-5 py-3 rounded-pill">Lihat Semua Cerita <i class="bi bi-arrow-right ms-2"></i></a>
+      <a href="/explore" class="btn btn-outline-primary px-5 py-3 rounded-pill">Lihat Semua Cerita <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
   </section>
 
@@ -290,8 +290,8 @@ import Layout from '../layouts/Layout.astro';
         <h2 class="display-5 fw-bold mb-4">Mulai Perjalanan Anda Bersama <span class="text-primary">FanBlog</span></h2>
         <p class="text-muted mb-5 mx-auto" style="max-width: 600px;">Daftar gratis hari ini dan bergabunglah dengan ribuan kreator lainnya untuk membangun kehadiran digital Anda.</p>
         <div class="d-flex justify-content-center gap-3">
-          <a href="/pages/signup" class="btn btn-primary btn-lg px-5">Gabung Sekarang</a>
-          <a href="/pages/about" class="btn btn-outline-secondary btn-lg px-5">Pelajari Lebih Lanjut</a>
+          <a href="/signup" class="btn btn-primary btn-lg px-5">Gabung Sekarang</a>
+          <a href="/about" class="btn btn-outline-secondary btn-lg px-5">Pelajari Lebih Lanjut</a>
         </div>
       </div>
     </div>
@@ -375,7 +375,7 @@ import Layout from '../layouts/Layout.astro';
               <div class="card h-100 position-relative animate-up">
                 ${ProgressiveImage.cardThumbnail(thumb, escapeHTML(post.title))}
                 <div class="card-body d-flex flex-column">
-                  <a href="/pages/explore?category=${encodeURIComponent(post.category)}" class="badge bg-primary bg-opacity-10 text-primary mb-2 align-self-start text-decoration-none">${escapeHTML(post.category)}</a>
+                  <a href="/explore?category=${encodeURIComponent(post.category)}" class="badge bg-primary bg-opacity-10 text-primary mb-2 align-self-start text-decoration-none">${escapeHTML(post.category)}</a>
                   <h5 class="card-title fw-bold">
                     <a href="/post/${encodeURIComponent(post.slug)}" class="text-decoration-none text-white hover-accent stretched-link">
                       ${escapeHTML(post.title)}

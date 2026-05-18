@@ -1,8 +1,0 @@
----
-const slug = Astro.url.searchParams.get('slug');
-if (slug) {
-  return Astro.redirect(`/post/${slug}`, 301);
-} else {
-  return Astro.redirect('/', 301);
-}
----

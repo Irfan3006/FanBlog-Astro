@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 ---
 <Layout>
   <Fragment slot="head">
@@ -10,18 +10,18 @@ import Layout from '../../layouts/Layout.astro';
   <meta name="description" content="Lihat apa yang sedang populer di FanBlog. Artikel dengan interaksi tertinggi dan topik hangat saat ini yang ditulis oleh komunitas.">
   <meta name="keywords" content="blog, ugc, fanblog, trending blog, artikel populer, topik hangat, viral">
   <meta name="author" content="Irfan Syarifudin">
-  <link rel="canonical" href="https://fanblog.web.id/pages/trending">
+  <link rel="canonical" href="https://fanblog.web.id/trending">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fanblog.web.id/pages/trending">
+  <meta property="og:url" content="https://fanblog.web.id/trending">
   <meta property="og:title" content="Trending - FanBlog">
   <meta property="og:description" content="Cari tahu apa yang sedang populer di FanBlog. Simak artikel-artikel terbaru yang sedang banyak dibaca minggu ini.">
   <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://fanblog.web.id/pages/trending">
+  <meta property="twitter:url" content="https://fanblog.web.id/trending">
   <meta property="twitter:title" content="Trending - FanBlog">
   <meta property="twitter:description" content="Cari tahu apa yang sedang populer di FanBlog. Simak artikel-artikel terbaru yang sedang banyak dibaca minggu ini.">
   <meta property="twitter:image" content="https://fanblog.web.id/assets/img/logo.webp">
@@ -296,7 +296,7 @@ import Layout from '../../layouts/Layout.astro';
                       <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img" style="width:24px;height:24px;" referrerpolicy="no-referrer">
                       <span class="text-white small fw-bold">${escapeHTML(post.author_name)}</span>
                       <span class="text-muted small">in</span>
-                      <a href="/pages/explore?category=${encodeURIComponent(post.category)}" class="text-primary small fw-bold text-decoration-none hover-accent">${escapeHTML(post.category)}</a>
+                      <a href="/explore?category=${encodeURIComponent(post.category)}" class="text-primary small fw-bold text-decoration-none hover-accent">${escapeHTML(post.category)}</a>
                     </div>
                     <h5 class="fw-bold mb-2 trending-title">
                       <a href="/post/${encodeURIComponent(post.slug)}" class="text-decoration-none text-white hover-accent stretched-link">

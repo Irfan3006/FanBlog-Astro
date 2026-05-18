@@ -298,7 +298,7 @@ function renderTrendingCategories(containerId, limit = 10) {
     .slice(0, limit);
 
   container.innerHTML = displayCats.map(cat => `
-    <a href="/pages/explore?category=${encodeURIComponent(cat)}" class="badge bg-light text-dark border px-3 py-2 text-decoration-none hover-accent">
+    <a href="/explore?category=${encodeURIComponent(cat)}" class="badge bg-light text-dark border px-3 py-2 text-decoration-none hover-accent">
       ${cat}
     </a>
   `).join('');

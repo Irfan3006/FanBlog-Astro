@@ -1,0 +1,38 @@
+---
+const { slug } = Astro.params;
+const searchParams = Astro.url.searchParams;
+const query = searchParams.toString();
+
+const staticPages = [
+  'about',
+  'admin',
+  'categories',
+  'contact',
+  'create-post',
+  'edit-post',
+  'explore',
+  'faq',
+  'guidelines',
+  'login',
+  'profile',
+  'signup',
+  'trending'
+];
+
+if (staticPages.includes(slug || '')) {
+  // Redirect static pages to standard page (e.g. /pages/about -> /about)
+  return Astro.redirect(`/${slug}${query ? '?' + query : ''}`, 301);
+} else if (slug === 'post') {
+  // Handle old query param post URLs: /pages/post?slug=some-slug -> /post/some-slug
+  const postSlug = searchParams.get('slug');
+  if (postSlug) {
+    return Astro.redirect(`/post/${postSlug}`, 301);
+  }
+  return Astro.redirect('/', 301);
+} else {
+  // Redirect old post slug path to the new `/post/` path:
+  // e.g. /pages/profil-irfan... -> /post/profil-irfan...
+  return Astro.redirect(`/post/${slug || ''}${query ? '?' + query : ''}`, 301);
+}
+---
+

@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 ---
 <Layout>
   <Fragment slot="head">
@@ -9,11 +9,11 @@ import Layout from '../../layouts/Layout.astro';
   <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
   <meta name="description" content="Masuk ke akun FanBlog Anda untuk mengelola postingan dan berbagi cerita dengan dunia.">
   <meta name="author" content="Irfan Syarifudin">
-  <link rel="canonical" href="https://fanblog.web.id/pages/login">
+  <link rel="canonical" href="https://fanblog.web.id/login">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fanblog.web.id/pages/login">
+  <meta property="og:url" content="https://fanblog.web.id/login">
   <meta property="og:title" content="Login - FanBlog">
   <meta property="og:description" content="Masuk ke FanBlog untuk mulai menulis dan mengelola konten Anda.">
   <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
@@ -62,7 +62,7 @@ import Layout from '../../layouts/Layout.astro';
           <div class="spinner-border spinner-border-sm d-none" role="status" id="loadingSpinner"></div>
         </button>
         <div class="text-center">
-          <span class="text-muted">Belum punya akun?</span> <a href="/pages/signup" class="fw-bold text-primary">Daftar</a>
+          <span class="text-muted">Belum punya akun?</span> <a href="/signup" class="fw-bold text-primary">Daftar</a>
         </div>
         <div class="text-center mt-3">
            <a href="/" class="text-muted text-decoration-underline" style="font-size: 0.85rem;">Kembali ke Beranda</a>
@@ -108,7 +108,7 @@ import Layout from '../../layouts/Layout.astro';
           alertBox.classList.remove('d-none');
           Auth.setSession(res.data);
           setTimeout(() => {
-            if (res.data.role === 'admin') { window.location.href = '/pages/admin'; }
+            if (res.data.role === 'admin') { window.location.href = '/admin'; }
             else { window.location.href = '/'; }
           }, 1000);
         } else {

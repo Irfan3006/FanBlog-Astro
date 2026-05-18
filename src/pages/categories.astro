@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 ---
 <Layout>
   <Fragment slot="head">
@@ -10,18 +10,18 @@ import Layout from '../../layouts/Layout.astro';
   <meta name="description" content="Telusuri artikel FanBlog berdasarkan kategori. Temukan topik yang paling Anda minati mulai dari teknologi hingga gaya hidup.">
   <meta name="keywords" content="blog, ugc, fanblog, kategori blog, topik artikel, teknologi, edukasi">
   <meta name="author" content="Irfan Syarifudin">
-  <link rel="canonical" href="https://fanblog.web.id/pages/categories">
+  <link rel="canonical" href="https://fanblog.web.id/categories">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fanblog.web.id/pages/categories">
+  <meta property="og:url" content="https://fanblog.web.id/categories">
   <meta property="og:title" content="Categories - FanBlog">
   <meta property="og:description" content="Telusuri berbagai kategori artikel menarik di FanBlog. Temukan komunitas dan topik yang sesuai dengan minat Anda.">
   <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://fanblog.web.id/pages/categories">
+  <meta property="twitter:url" content="https://fanblog.web.id/categories">
   <meta property="twitter:title" content="Categories - FanBlog">
   <meta property="twitter:description" content="Telusuri berbagai kategori artikel menarik di FanBlog. Temukan komunitas dan topik yang sesuai dengan minat Anda.">
   <meta property="twitter:image" content="https://fanblog.web.id/assets/img/logo.webp">
@@ -189,7 +189,7 @@ import Layout from '../../layouts/Layout.astro';
 
         grid.innerHTML = cats.map((cat, index) => `
           <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${(index % 4) * 50}">
-            <div class="category-card" onclick="window.location.href='/pages/explore?category=${encodeURIComponent(cat)}'">
+            <div class="category-card" onclick="window.location.href='/explore?category=${encodeURIComponent(cat)}'">
               <div class="category-icon">
                 <i class="bi bi-tag"></i>
               </div>

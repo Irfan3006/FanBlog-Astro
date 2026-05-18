@@ -25,7 +25,7 @@ class Auth {
 
   static clearSession() {
     localStorage.removeItem('fanblog_user');
-    window.location.href = '/pages/login';
+    window.location.href = '/login';
   }
 
   static isLoggedIn() {
@@ -39,7 +39,7 @@ class Auth {
 
   static requireLogin() {
     if (!this.isLoggedIn()) {
-      window.location.href = '/pages/login';
+      window.location.href = '/login';
     }
   }
 
@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
           cancelButtonText: 'Ke Profil Saya'
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = '/pages/create-post';
+            window.location.href = '/create-post';
           } else if (result.dismiss === Swal.DismissReason.cancel) {
-            window.location.href = '/pages/profile';
+            window.location.href = '/profile';
           }
         });
       }
@@ -124,7 +124,7 @@ function updateNavbar() {
     const safeUsername = escapeHTML(user.username);
     const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}&background=random&color=fff`;
     const safeAvatar = escapeHTML(user.avatar || defaultAvatar);
-    let adminLink = user.role === 'admin' ? `<li><a class="dropdown-item" href="/pages/admin"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>` : '';
+    let adminLink = user.role === 'admin' ? `<li><a class="dropdown-item" href="/admin"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>` : '';
     
     authNav.innerHTML = `
       <li class="nav-item dropdown">
@@ -134,8 +134,8 @@ function updateNavbar() {
         </a>
         <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="navbarDropdown">
           ${adminLink}
-          <li><a class="dropdown-item" href="/pages/profile"><i class="bi bi-person me-2"></i> Profil</a></li>
-          <li><a class="dropdown-item" href="/pages/create-post"><i class="bi bi-pencil-square me-2"></i> Tulis Postingan</a></li>
+          <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i> Profil</a></li>
+          <li><a class="dropdown-item" href="/create-post"><i class="bi bi-pencil-square me-2"></i> Tulis Postingan</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item text-danger" href="#" onclick="Auth.clearSession()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
         </ul>
@@ -144,10 +144,10 @@ function updateNavbar() {
   } else {
     authNav.innerHTML = `
       <li class="nav-item">
-        <a class="nav-link" href="/pages/login">Login</a>
+        <a class="nav-link" href="/login">Login</a>
       </li>
       <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-        <a class="btn btn-primary w-100" href="/pages/signup">Mulai Sekarang</a>
+        <a class="btn btn-primary w-100" href="/signup">Mulai Sekarang</a>
       </li>
     `;
   }
@@ -167,14 +167,14 @@ function renderNavbar() {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/pages/explore">Explore</a></li>
-          <li class="nav-item"><a class="nav-link" href="/pages/categories">Categories</a></li>
-          <li class="nav-item"><a class="nav-link" href="/pages/trending">Trending</a></li>
-          <li class="nav-item"><a class="nav-link" href="/pages/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/explore">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
+          <li class="nav-item"><a class="nav-link" href="/trending">Trending</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
         </ul>
         <ul class="navbar-nav align-items-lg-center gap-2" id="auth-nav">
           <li class="nav-item d-none d-lg-block">
-            <a class="nav-link text-primary fw-bold" href="/pages/create-post">
+            <a class="nav-link text-primary fw-bold" href="/create-post">
               <i class="bi bi-pencil-square me-1"></i> Write
             </a>
           </li>
@@ -193,11 +193,11 @@ function renderFooter() {
         <i class="bi bi-feather text-primary fs-4"></i>
       </div>
       <div class="d-flex justify-content-center gap-3 mb-3" style="font-size: 0.85rem;">
-        <a href="/pages/faq" class="text-muted text-decoration-none hover-accent">FAQ</a>
+        <a href="/faq" class="text-muted text-decoration-none hover-accent">FAQ</a>
         <span class="text-muted opacity-25">|</span>
-        <a href="/pages/guidelines" class="text-muted text-decoration-none hover-accent">Guidelines</a>
+        <a href="/guidelines" class="text-muted text-decoration-none hover-accent">Guidelines</a>
         <span class="text-muted opacity-25">|</span>
-        <a href="/pages/about" class="text-muted text-decoration-none hover-accent">About</a>
+        <a href="/about" class="text-muted text-decoration-none hover-accent">About</a>
       </div>
       <p class="text-muted mb-2" style="font-size: 0.9rem;">&copy; ${new Date().getFullYear()} FanBlog. All rights reserved.</p>
       <p class="text-muted mb-0" style="font-size: 0.85rem;">
@@ -240,18 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML('beforeend', renderLoader());
   updateNavbar();
 
-  // Google Analytics (gtag.js)
-  const gaId = 'G-Z5K95V81ZB';
-  const gtagScript = document.createElement('script');
-  gtagScript.async = true;
-  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-  document.head.appendChild(gtagScript);
 
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', gaId);
 
   ProgressiveImage.observe();
 });
