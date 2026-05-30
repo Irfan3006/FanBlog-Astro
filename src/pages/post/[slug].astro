@@ -4,14 +4,14 @@ import Layout from '../../layouts/Layout.astro';
 export const prerender = false;
 
 const { slug } = Astro.params;
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTfzjHnuQohWZdCe_4SsF2xS63lPAuEjysl9EOorjW5twz4VpvrUspWLigeIlzJZcfCw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYCgSlpeiWb32_xM7PPTD72kpVRHky2AezKsbiBso-SSROxdPO3oh1D04XVjLCt2URzA/exec';
 
 let post = null;
 let allPosts = [];
 
 try {
   // Fetch posts and increment view count for this specific slug in a single round-trip
-  const apiRes = await fetch(`${SCRIPT_URL}?action=get_posts&slug=${encodeURIComponent(slug || '')}`);
+  const apiRes = await fetch(`${SCRIPT_URL}?action=get_posts&slug=${encodeURIComponent(slug || '')}&_t=${Date.now()}`);
   const result = await apiRes.json();
   if (result.success && Array.isArray(result.data)) {
     allPosts = result.data;
