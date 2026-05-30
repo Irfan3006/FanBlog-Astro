@@ -24,15 +24,51 @@ if (!post) {
   return Astro.redirect('/404');
 }
 
+// Helper to decode basic HTML entities
+function decodeHtmlEntities(str: string) {
+  if (!str) return '';
+  return str
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–');
+}
+
+// Clean HTML, strip tags, decode entities, normalize spaces
+function cleanText(html: string) {
+  if (!html) return '';
+  const noTags = html.replace(/<[^>]*>/g, ' ');
+  const decoded = decodeHtmlEntities(noTags);
+  return decoded.replace(/\s+/g, ' ').trim();
+}
+
+// Helper to format proper ISO date strings for schemas
+function toIsoDate(dateString: any) {
+  if (!dateString) return new Date().toISOString();
+  const d = new Date(dateString);
+  return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+}
+
 // Calculate meta details
 const postTitle = post.title || 'Post';
 let plainContent = 'Baca artikel lengkap di FanBlog.';
 let wordCount = 0;
 let readingTime = 1;
+
 if (post.content) {
-  const rawText = post.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-  plainContent = rawText.substring(0, 160) + (rawText.length > 160 ? '...' : '');
-  wordCount = rawText.split(/\s+/).filter(Boolean).length;
+  const cleaned = cleanText(post.content);
+  plainContent = cleaned.substring(0, 155);
+  if (cleaned.length > 155) {
+    plainContent = plainContent.trim() + '...';
+  } else if (!plainContent) {
+    plainContent = 'Baca artikel lengkap di FanBlog.';
+  }
+  wordCount = cleaned.split(/\s+/).filter(Boolean).length;
   readingTime = Math.ceil(wordCount / 225) || 1;
 }
 
@@ -51,32 +87,141 @@ const keywordsList = postTitle.toLowerCase()
   .replace(/[^\w\s]/g, '')
   .split(/\s+/)
   .filter((word: string) => word.length > 2 && !commonStopWords.includes(word));
-const keywords = [...new Set([post.category, ...keywordsList])].join(', ');
+const keywords = [...new Set([post.category, ...keywordsList])].slice(0, 10).join(', ');
 
-const jsonLd = JSON.stringify({
+const datePublishedIso = toIsoDate(post.created_at);
+const dateModifiedIso = toIsoDate(post.updated_at || post.created_at);
+
+const jsonLdGraph = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl },
-  "headline": postTitle,
-  "description": plainContent,
-  "image": [postThumbnail],
-  "datePublished": post.created_at,
-  "dateModified": post.updated_at || post.created_at,
-  "wordCount": wordCount,
-  "timeRequired": `PT${readingTime}M`,
-  "articleSection": post.category,
-  "author": {
-    "@type": "Person",
-    "name": post.author_name,
-    "url": `https://${host}/profile?user=${post.author_id}`,
-    "jobTitle": "Konten Kreator"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "FanBlog",
-    "logo": { "@type": "ImageObject", "url": `https://${host}/assets/img/logo.webp` }
-  }
-});
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `https://${host}/#website`,
+      "url": `https://${host}/`,
+      "name": "FanBlog",
+      "description": "Platform Berbagi Cerita dan Artikel Kreatif",
+      "publisher": {
+        "@id": `https://${host}/#organization`
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": `https://${host}/explore?q={search_term_string}`
+          },
+          "query-input": "required name=search_term_string"
+        }
+      ],
+      "inLanguage": "id-ID"
+    },
+    {
+      "@type": "Organization",
+      "@id": `https://${host}/#organization`,
+      "name": "FanBlog",
+      "url": `https://${host}/`,
+      "logo": {
+        "@type": "ImageObject",
+        "@id": `https://${host}/#logo`,
+        "url": `https://${host}/assets/img/logo.webp`,
+        "caption": "FanBlog Logo"
+      },
+      "image": {
+        "@id": `https://${host}/#logo`
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+      "url": canonicalUrl,
+      "name": `${postTitle} - FanBlog`,
+      "isPartOf": {
+        "@id": `https://${host}/#website`
+      },
+      "primaryImageOfPage": {
+        "@id": `${canonicalUrl}/#primaryimage`
+      },
+      "description": plainContent,
+      "breadcrumb": {
+        "@id": `${canonicalUrl}/#breadcrumb`
+      },
+      "inLanguage": "id-ID"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": `${canonicalUrl}/#primaryimage`,
+      "url": postThumbnail,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}/#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": `https://${host}/`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": `https://${host}/explore`
+        },
+        ...(post.category ? [{
+          "@type": "ListItem",
+          "position": 3,
+          "name": post.category,
+          "item": `https://${host}/explore?category=${encodeURIComponent(post.category)}`
+        }] : []),
+        {
+          "@type": "ListItem",
+          "position": post.category ? 4 : 3,
+          "name": postTitle,
+          "item": canonicalUrl
+        }
+      ]
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonicalUrl}/#article`,
+      "isPartOf": {
+        "@id": canonicalUrl
+      },
+      "headline": postTitle,
+      "description": plainContent,
+      "image": {
+        "@id": `${canonicalUrl}/#primaryimage`
+      },
+      "datePublished": datePublishedIso,
+      "dateModified": dateModifiedIso,
+      "mainEntityOfPage": canonicalUrl,
+      "wordCount": wordCount,
+      "timeRequired": `PT${readingTime}M`,
+      "articleSection": [post.category],
+      "keywords": keywords,
+      "author": {
+        "@type": "Person",
+        "@id": `https://${host}/#author-${post.author_id}`,
+        "name": post.author_name,
+        "url": `https://${host}/profile?user=${post.author_id}`,
+        "image": {
+          "@type": "ImageObject",
+          "url": post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}&size=128`
+        },
+        "description": post.author_bio || "Konten Kreator di FanBlog"
+      },
+      "publisher": {
+        "@id": `https://${host}/#organization`
+      }
+    }
+  ]
+};
+
+const jsonLd = JSON.stringify(jsonLdGraph);
 
 function formatDateServer(dateString: any) {
   if (!dateString) return '';
@@ -117,6 +262,10 @@ let recommended = [...related, ...others].slice(0, 3);
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content={post.author_name}>
     
+    <!-- Advanced Meta Crawl Directives -->
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:locale" content="id_ID">
@@ -128,11 +277,12 @@ let recommended = [...related, ...others].slice(0, 3);
     <meta property="og:image:secure_url" content={postThumbnail}>
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:alt" content={postTitle}>
     
     <!-- Article Metadata -->
-    <meta property="article:published_time" content={post.created_at}>
-    <meta property="article:modified_time" content={post.updated_at || post.created_at}>
+    <meta property="article:published_time" content={datePublishedIso}>
+    <meta property="article:modified_time" content={dateModifiedIso}>
     <meta property="article:author" content={`https://${host}/profile?user=${post.author_id}`}>
     <meta property="article:section" content={post.category}>
     {keywordsList.slice(0, 5).map((tag: string) => (
@@ -439,10 +589,31 @@ let recommended = [...related, ...others].slice(0, 3);
 
   <main class="container my-5 min-vh-80" id="post-container">
     <nav aria-label="breadcrumb" style="max-width: 800px; margin: 0 auto 2rem;">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i> Home</a></li>
-        <li class="breadcrumb-item"><a href="/explore">Blog</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Post</li>
+      <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="/">
+            <span itemprop="name"><i class="bi bi-house"></i> Home</span>
+          </a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="/explore">
+            <span itemprop="name">Blog</span>
+          </a>
+          <meta itemprop="position" content="2" />
+        </li>
+        {post.category && (
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href={`/explore?category=${encodeURIComponent(post.category)}`}>
+              <span itemprop="name">{post.category}</span>
+            </a>
+            <meta itemprop="position" content="3" />
+          </li>
+        )}
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{postTitle.length > 30 ? postTitle.substring(0, 30) + '...' : postTitle}</span>
+          <meta itemprop="position" content={post.category ? "4" : "3"} />
+        </li>
       </ol>
     </nav>
 
