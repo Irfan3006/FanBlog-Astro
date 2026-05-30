@@ -10,14 +10,15 @@ let post = null;
 let allPosts = [];
 
 try {
-  const apiRes = await fetch(`${SCRIPT_URL}?action=get_posts`);
+  // Fetch posts and increment view count for this specific slug in a single round-trip
+  const apiRes = await fetch(`${SCRIPT_URL}?action=get_posts&slug=${encodeURIComponent(slug || '')}`);
   const result = await apiRes.json();
   if (result.success && Array.isArray(result.data)) {
     allPosts = result.data;
     post = allPosts.find((p: any) => p.slug === slug);
   }
 } catch (err) {
-  console.error("Failed to load posts in SSR:", err);
+  console.error("Failed to load posts and increment views in SSR:", err);
 }
 
 if (!post) {
@@ -79,7 +80,7 @@ if (post.thumbnail) {
   postThumbnail = post.thumbnail.startsWith('http') ? post.thumbnail : `https://${host}${post.thumbnail}`;
 }
 
-const canonicalUrl = `https://${host}/post/${encodeURIComponent(slug || '')}`;
+const canonicalUrl = `https://fanblog.web.id/post/${slug}`;
 
 // Dynamic tags/keywords generation
 const commonStopWords = ['dan', 'di', 'ke', 'dari', 'yang', 'untuk', 'atau', 'dengan', 'ini', 'itu', 'pada', 'adalah', 'yaitu', 'ialah', 'sebagai', 'cara', 'tips', 'panduan'];
@@ -301,6 +302,7 @@ let recommended = [...related, ...others].slice(0, 3);
     <link rel="canonical" href={canonicalUrl}>
     <script type="application/ld+json" id="structured-data" set:html={jsonLd}></script>
     <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=698357388ea334cc0e5b7c25&product=sop' async='async'></script>
+    <script id="dsq-count-scr" src="//fanblog-6.disqus.com/count.js" async></script>
   
 
 
@@ -625,13 +627,22 @@ let recommended = [...related, ...others].slice(0, 3);
       </a>
       <h1 class="fw-bold display-4 mb-3" id="post-title">{post.title}</h1>
       <div class="d-flex align-items-center justify-content-center gap-3 text-muted mb-4 post-meta-wrapper">
-        <span id="post-author-top">Oleh {post.author_name}</span>
+        <a href={`/profile?user=${post.author_id}`} id="post-author-top" class="d-flex align-items-center gap-2 text-decoration-none text-muted hover-accent">
+          <img src={post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}&size=32`} 
+               alt={post.author_name} 
+               class="rounded-circle shadow-sm" 
+               style="width: 28px; height: 28px; object-fit: cover; border: 1px solid var(--stroke);" 
+               referrerpolicy="no-referrer" />
+          <span>Oleh <strong class="text-white hover-accent">{post.author_name}</strong></span>
+        </a>
         <span class="separator">&bull;</span>
         <span id="post-date">{formatDateServer(post.created_at)}</span>
         <span class="separator">&bull;</span>
         <span id="reading-time"><i class="bi bi-clock me-1"></i> {readingTime} mnt baca</span>
+        <span class="separator">&bull;</span>
+        <span id="post-views"><i class="bi bi-eye me-1"></i> {post.views || 0} kali dibaca</span>
       </div>
-      <div class="sharethis-inline-share-buttons mb-4"></div>
+      <div class="sharethis-inline-share-buttons mb-4" data-url={canonicalUrl} data-title={postTitle}></div>
     </div>
 
     <div style="max-width: 850px; margin: 0 auto;" id="post-thumbnail-container">
@@ -656,6 +667,26 @@ let recommended = [...related, ...others].slice(0, 3);
         </div>
       </div>
     </div>
+
+    <!-- Disqus Comment Section -->
+    <div class="comments-section mx-auto my-5" style="max-width: 800px; background: var(--card-bg); border: 1px solid var(--stroke); border-radius: 24px; padding: 2.5rem; box-shadow: var(--shadow-soft);" data-aos="fade-up">
+      <h3 class="fw-bold mb-4" style="color: var(--headline);"><i class="bi bi-chat-left-text me-2 text-primary"></i> Diskusi & Komentar</h3>
+      <div id="disqus_thread" class="mt-4"></div>
+    </div>
+
+    <script is:inline define:vars={{ canonicalUrl, postId: post.id }}>
+      var disqus_config = function () {
+        this.page.url = canonicalUrl;
+        this.page.identifier = postId;
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://fanblog-6.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
     <!-- Recommendation Section -->
     <div class="recommendation-section">
@@ -683,10 +714,21 @@ let recommended = [...related, ...others].slice(0, 3);
                         {p.title.length > 60 ? p.title.substring(0, 60) + '...' : p.title}
                       </a>
                     </h6>
-                    <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.8rem;">
-                      <span>{p.author_name}</span>
-                      <span>&bull;</span>
-                      <span>{formatDateServer(p.created_at).split(',')[1]?.split('-')[0]?.trim() || ''}</span>
+                    <div class="d-flex align-items-center justify-content-between text-muted" style="font-size: 0.8rem;">
+                      <a href={`/profile?user=${p.author_id}`} class="d-flex align-items-center gap-2 text-decoration-none text-muted hover-accent position-relative" style="z-index: 2;">
+                        <img src={p.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.author_name)}&size=32`} 
+                             alt={p.author_name} 
+                             class="rounded-circle" 
+                             style="width: 20px; height: 20px; object-fit: cover;" 
+                             referrerpolicy="no-referrer" />
+                        <span class="hover-accent">{p.author_name}</span>
+                      </a>
+                      <div class="d-flex align-items-center gap-2">
+                        <span>&bull;</span>
+                        <span>{formatDateServer(p.created_at).split(',')[1]?.split('-')[0]?.trim() || ''}</span>
+                        <span>&bull;</span>
+                        <span class="d-flex align-items-center gap-1"><i class="bi bi-eye"></i> {p.views || 0}</span>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTfzjHnuQohWZdCe_4SsF2xS63lPAuEjysl9EOorjW5twz4VpvrUspWLigeIlzJZcfCw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFr2ThVack3EobZwKrHswX1xDRXpi6d0ERXFtKBPf_tPImN5PvrrmXNGnmuqAMHfyoFw/exec';
 
 function sanitizeHTML(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');

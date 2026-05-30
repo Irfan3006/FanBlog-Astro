@@ -194,7 +194,18 @@ const BLOG_CATEGORIES = ["K-Pop", "Blackpink", "BTS", "Jisoo", "Lisa", "ARMY", "
   "AutoCAD", "SketchUp", "Revit", "Tukang Bangunan", "Tukang Kayu", "Tukang Cat", "Tukang Ledeng", "Tukang Listrik",
   "Tukang Las", "Tukang Keramik", "Alat Pertukangan", "Power Tools", "Hand Tools", "Konstruksi Baja", "Konstruksi Beton",
   "Estimasi Biaya Bangunan", "Keselamatan Kerja (K3)", "Izin Mendirikan Bangunan (IMB)", "Desain Eksterior", "Restorasi Bangunan",
-  "Arsitektur Tradisional", "Material Bangunan Modern", "Sistem Irigasi", "Paving Block", "Desain Dapur", "Kuli"
+  "Arsitektur Tradisional", "Material Bangunan Modern", "Sistem Irigasi", "Paving Block", "Desain Dapur", "Kuli",
+  "Kardiologi", "Neurologi", "Pediatri", "Dermatologi", "Onkologi", "Psikiatri", "Radiologi", "Patologi", "Endokrinologi", "Gastroenterologi", 
+  "Hematologi", "Nefrologi", "Pulmonologi", "Reumatologi", "Oftalmologi", "Ginekologi", "Kedokteran Gigi", "Farmasi", "Keperawatan", "Hukum Tata Negara", 
+  "Hukum Pidana", "Hukum Perdata", "Hukum Dagang", "Hak Kekayaan Intelektual", "Hukum Ketenagakerjaan", "Hukum Keluarga", "Hukum Lingkungan", "Hukum Pajak", "Hukum Internasional", "Hukum Siber", 
+  "Hukum Maritim", "Kriptografi", "Rekayasa Terbalik", "Eksploitasi Biner", "Rekayasa Sosial", "Audit Nirkabel", "Keamanan SCADA", "Analisis Firmware", "Intelijen Ancaman", "Keamanan Awan", 
+  "Hacking API", "Ilmu Tanah", "Agroforestri", "Florikultura", "Hortikultura", "Pomologi", "Olerikultura", "Budidaya Lebah", "Budidaya Sutra", "Medan", 
+  "Semarang", "Makassar", "Palembang", "Tangerang", "Depok", "Bekasi", "Bogor", "Denpasar", "Balikpapan", "Samarinda", 
+  "Pontianak", "Banjarmasin", "Manado", "Ambon", "Kupang", "Mataram", "Banda Aceh", "Padang", "Pekanbaru", "Jambi", 
+  "Bengkulu", "Bandar Lampung", "Trading Forex", "Investasi Saham", "Reksa Dana", "Perencanaan Pensiun", "Penganggaran", "Keuangan Perusahaan", "Modal Ventura", "Investasi Malaikat", 
+  "Mikroekonomi", "Makroekonomi", "Ekonomi Perilaku", "Seni Lukis Cat Air", "Seni Lukis Cat Minyak", "Pembuatan Perhiasan", "Seni Kaca Tiup", "Kaligrafi Modern", "Seni Scrapbook", "Game Overwatch", 
+  "Game Starfield", "Game Hogwarts Legacy", "Game Spiderman", "Game EA Sports FC", "Game Valorant Mobile", "Game Roblox Studio", "Game Minecraft Java", "Game MLBB", "Game PUBG Mobile", "Game Free Fire MAX",
+  "Teknik Sipil", "Teknik Mesin", "Teknik Elektro", "Teknik Kimia", "Teknik Lingkungan", "Teknik Industri", "Teknik Nuklir", "Teknik Perkapalan", "Teknik Dirgantara", "Teknik Geomatika"
 ];
 
 function populateCategorySelect(selectId, selectedValue = "") {

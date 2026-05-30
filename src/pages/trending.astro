@@ -259,7 +259,8 @@ import Layout from '../layouts/Layout.astro';
         let allPosts = res.data;
 
         function calculateTrendingScore(post) {
-          let baseScore = 100;
+          // Calculate trending score based on actual views + length bonus + time gravity decay
+          let baseScore = 100 + (post.views || 0) * 10;
 
           const wordCount = post.content ? post.content.split(/\s+/).length : 0;
           const lengthBonus = Math.min(wordCount / 8, 50); 
@@ -286,6 +287,8 @@ import Layout from '../layouts/Layout.astro';
           const date = formatDate(post.created_at);
           const thumb = escapeHTML(post.thumbnail || '/assets/img/logo.webp');
           const number = (index + 1).toString().padStart(2, '0');
+          const wordCount = post.content ? post.content.split(/\s+/).filter(Boolean).length : 0;
+          const readingTime = Math.ceil(wordCount / 225) || 1;
           return `
             <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="${index * 50}">
               <div class="card h-100 trending-card border-0 bg-transparent p-3">
@@ -293,10 +296,12 @@ import Layout from '../layouts/Layout.astro';
                 <div class="card-body p-0 d-flex gap-3 align-items-center">
                   <div class="flex-grow-1">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                      <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img" style="width:24px;height:24px;" referrerpolicy="no-referrer">
-                      <span class="text-white small fw-bold">${escapeHTML(post.author_name)}</span>
+                      <a href="/profile?user=${encodeURIComponent(post.author_id)}" class="d-flex align-items-center gap-2 text-decoration-none hover-accent position-relative" style="z-index: 2;">
+                        <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img" style="width:24px;height:24px;" referrerpolicy="no-referrer">
+                        <span class="text-white small fw-bold hover-accent">${escapeHTML(post.author_name)}</span>
+                      </a>
                       <span class="text-muted small">in</span>
-                      <a href="/explore?category=${encodeURIComponent(post.category)}" class="text-primary small fw-bold text-decoration-none hover-accent">${escapeHTML(post.category)}</a>
+                      <a href="/explore?category=${encodeURIComponent(post.category)}" class="text-primary small fw-bold text-decoration-none hover-accent position-relative" style="z-index: 2;">${escapeHTML(post.category)}</a>
                     </div>
                     <h5 class="fw-bold mb-2 trending-title">
                       <a href="/post/${encodeURIComponent(post.slug)}" class="text-decoration-none text-white hover-accent stretched-link">
@@ -306,7 +311,9 @@ import Layout from '../layouts/Layout.astro';
                     <div class="text-muted small d-flex align-items-center gap-2">
                       <span>${date}</span>
                       <span class="opacity-25">&bull;</span>
-                      <span>5 min read</span>
+                      <span>${readingTime} min read</span>
+                      <span class="opacity-25">&bull;</span>
+                      <span class="d-flex align-items-center gap-1"><i class="bi bi-eye"></i> ${post.views || 0}</span>
                     </div>
                   </div>
                   <div class="flex-shrink-0 d-none d-sm-block">

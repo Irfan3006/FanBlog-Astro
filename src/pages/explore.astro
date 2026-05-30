@@ -186,12 +186,19 @@ import Layout from '../layouts/Layout.astro';
                   </a>
                 </h5>
                 <p class="text-muted small flex-grow-1">${escapeHTML(excerpt)}</p>
-                <div class="d-flex align-items-center mt-3 pt-3 border-top border-secondary border-opacity-10">
-                  <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img me-2" style="width:25px;height:25px;" referrerpolicy="no-referrer">
-                  <div class="small lh-1">
-                    <span class="text-white d-block fw-600 mb-1">${escapeHTML(post.author_name)}</span>
-                    <span class="text-muted" style="font-size: 0.75rem;">${date}</span>
+                <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top border-secondary border-opacity-10">
+                  <div class="d-flex align-items-center">
+                    <a href="/profile?user=${encodeURIComponent(post.author_id)}" class="d-flex align-items-center text-decoration-none hover-accent position-relative" style="z-index: 2;">
+                      <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img me-2" style="width:25px;height:25px;" referrerpolicy="no-referrer">
+                      <div class="small lh-1">
+                        <span class="text-white d-block fw-600 mb-1 hover-accent">${escapeHTML(post.author_name)}</span>
+                        <span class="text-muted" style="font-size: 0.75rem;">${date}</span>
+                      </div>
+                    </a>
                   </div>
+                  <span class="text-muted small d-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                    <i class="bi bi-eye"></i> ${post.views || 0}
+                  </span>
                 </div>
               </div>
             </div>
