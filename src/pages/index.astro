@@ -299,6 +299,12 @@ import Layout from '../layouts/Layout.astro';
 
   <Fragment slot="scripts">
     <script is:inline>
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', async () => {
       AOS.init({ duration: 1000, once: true });
 

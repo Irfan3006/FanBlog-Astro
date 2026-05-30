@@ -748,6 +748,10 @@ let recommended = [...related, ...others].slice(0, 3);
     <script is:inline set:html={`window.postAuthorId = "${post.author_id}"; window.postId = "${post.id}";`} />
     <script is:inline>
     document.addEventListener('DOMContentLoaded', async () => {
+      // Clear the posts cache so that navigating back to list pages fetches fresh view counts
+      sessionStorage.removeItem('posts_cache');
+      sessionStorage.removeItem('posts_cache_time');
+
       const user = Auth.getSession();
       const postAuthorId = window.postAuthorId;
       const postId = window.postId;
