@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYCgSlpeiWb32_xM7PPTD72kpVRHky2AezKsbiBso-SSROxdPO3oh1D04XVjLCt2URzA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnyPc9V26sGqtLUKTzIX7C-81rNaYYXO0TTIgB-Q3LPdQ6oRr5koFJeIjzPFQu2AVAeA/exec';
 
 function sanitizeHTML(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -99,6 +99,10 @@ class API {
     })();
 
     return this._pendingRequests[cacheKey];
+  }
+
+  static async getPostById(id) {
+    return this.request('GET', { action: 'get_posts', post_id: id });
   }
 
   static async getUsers(forceRefresh = false) {

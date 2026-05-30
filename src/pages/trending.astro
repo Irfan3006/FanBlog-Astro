@@ -262,7 +262,7 @@ import Layout from '../layouts/Layout.astro';
           // Calculate trending score based on actual views + length bonus + time gravity decay
           let baseScore = 100 + (post.views || 0) * 10;
 
-          const wordCount = post.content ? post.content.split(/\s+/).length : 0;
+          const wordCount = post.word_count || 0;
           const lengthBonus = Math.min(wordCount / 8, 50); 
           baseScore += lengthBonus;
 
@@ -287,7 +287,7 @@ import Layout from '../layouts/Layout.astro';
           const date = formatDate(post.created_at);
           const thumb = escapeHTML(post.thumbnail || '/assets/img/logo.webp');
           const number = (index + 1).toString().padStart(2, '0');
-          const wordCount = post.content ? post.content.split(/\s+/).filter(Boolean).length : 0;
+          const wordCount = post.word_count || 0;
           const readingTime = Math.ceil(wordCount / 225) || 1;
           return `
             <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="${index * 50}">

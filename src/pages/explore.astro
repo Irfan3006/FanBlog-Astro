@@ -165,11 +165,7 @@ import Layout from '../layouts/Layout.astro';
           
           const thumb = escapeHTML(post.thumbnail || '/assets/img/logo.webp');
           const date = formatDate(post.created_at);
-          
-
-          const temp = document.createElement('div');
-          temp.innerHTML = sanitizeHTML(post.content);
-          const excerpt = temp.textContent.substring(0, 80) + '...';
+          const excerpt = escapeHTML(post.excerpt || '');
 
           card.innerHTML = `
             <div class="card h-100">
