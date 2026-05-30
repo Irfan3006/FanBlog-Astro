@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import AdSenseCTA from '../../components/AdSenseCTA.astro';
 
 export const prerender = false;
 
@@ -656,6 +657,8 @@ let recommended = [...related, ...others].slice(0, 3);
     </div>
 
     <article class="post-content" id="post-body" set:html={post.content}></article>
+
+    <AdSenseCTA />
 
     <div class="author-box mx-auto" style="max-width: 800px;">
       <img src={post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}&size=128`} id="author-avatar" class="rounded-circle shadow-sm" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid var(--stroke);" alt="Author">

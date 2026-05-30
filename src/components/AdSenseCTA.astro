@@ -1,0 +1,166 @@
+---
+// src/components/AdSenseCTA.astro
+const { slot = "default", style = "" } = Astro.props;
+---
+
+<div class="adsense-cta-container my-4" style={style} data-aos="fade-up">
+  <div class="adsense-cta-card">
+    <div class="adsense-glow"></div>
+    <div class="adsense-content">
+      <!-- Tiny Sponsor Badge -->
+      <div class="adsense-badge">
+        <i class="bi bi-megaphone-fill me-1"></i> SPONSOR
+      </div>
+
+      <!-- AdSense Container -->
+      <div class="adsense-ad-wrapper">
+        <ins
+          class="adsbygoogle"
+          style="display:block; text-align:center;"
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-client="ca-pub-6092608473153556"
+          data-ad-slot={slot === "default" ? "3e828d58c14d4554b42337d1d234a9b5" : slot}></ins>
+        <script is:inline>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <!-- Fallback / Aesthetic Content when AdSense isn't fully loaded yet -->
+      <div class="adsense-fallback-content">
+        <div class="adsense-fallback-inner">
+          <img src="/assets/img/logo.webp" alt="FanBlog Logo" class="ad-logo-img" />
+          <div class="ad-text-content">
+            <h4 class="fw-bold mb-2 text-white">Pasang Iklan Anda di Sini</h4>
+            <p class="text-muted mb-4 small-text">Tingkatkan jangkauan bisnis Anda bersama komunitas aktif FanBlog.</p>
+          </div>
+          <a href="mailto:irfansyarifudin79@gmail.com?subject=Tanya%20Iklan%20FanBlog" class="btn btn-outline-primary rounded-pill px-4 py-2 ad-btn">Hubungi Admin</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .adsense-cta-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .adsense-cta-card {
+    position: relative;
+    background: rgba(27, 32, 56, 0.45);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    padding: 40px 30px;
+    transition: var(--transition);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .adsense-cta-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79, 195, 247, 0.3);
+    box-shadow: 0 15px 35px rgba(79, 195, 247, 0.08);
+  }
+
+  .adsense-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(79, 195, 247, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .adsense-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .adsense-badge {
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(79, 195, 247, 0.08);
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    display: inline-block;
+  }
+
+  .adsense-ad-wrapper {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .adsense-fallback-content {
+    width: 100%;
+    transition: var(--transition);
+  }
+
+  .adsense-fallback-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .ad-logo-img {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(79, 195, 247, 0.3));
+    transition: var(--transition);
+    margin-bottom: 10px;
+  }
+
+  .adsense-cta-card:hover .ad-logo-img {
+    transform: scale(1.08) rotate(3deg);
+    filter: drop-shadow(0 6px 18px rgba(79, 195, 247, 0.5));
+  }
+
+  .ad-text-content {
+    text-align: center;
+  }
+
+  .ad-text-content h4 {
+    font-size: 1.25rem;
+    margin: 0 0 8px 0;
+  }
+
+  .small-text {
+    font-size: 0.85rem;
+    color: var(--paragraph);
+    opacity: 0.8;
+  }
+
+  .ad-btn {
+    font-size: 0.85rem;
+    padding: 10px 24px;
+    white-space: nowrap;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  /* Hide the fallback when AdSense is successfully loaded and filled */
+  .adsense-ad-wrapper:has(ins[data-ad-status="filled"]) + .adsense-fallback-content {
+    display: none !important;
+  }
+</style>
