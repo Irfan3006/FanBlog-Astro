@@ -5,10 +5,16 @@ import '../styles/style.css';
 const { title = "FanBlog" } = Astro.props;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id-ID">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4FC3F7">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
   <meta name="google-adsense-account" content="ca-pub-6092608473153556">
-  <!-- Google AdSense Auto Ads -->
   <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6092608473153556" crossorigin="anonymous"></script>
 
   <!-- Global Resource Hints for faster loading -->
@@ -27,6 +33,16 @@ const { title = "FanBlog" } = Astro.props;
   <link rel="dns-prefetch" href="https://images.unsplash.com">
 
   <slot name="head" />
+  <!-- Default Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:site_name" content="FanBlog">
+  <meta property="og:image" content="https://fanblog.web.id/assets/img/logo.webp">
+  
+  <!-- Default Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fanblog_id">
+  <meta name="twitter:creator" content="@irfansyarifudin">
   <!-- Google Analytics (gtag.js) -->
   <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Z5K95V81ZB"></script>
   <script is:inline>
