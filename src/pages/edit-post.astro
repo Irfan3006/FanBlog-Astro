@@ -84,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
         const post = res.data.find(p => p.id === postId);
         
         if (post) {
-          if (post.author_id !== user.id && user.role !== 'admin') {
+          if (post.author_name !== user.username && user.role !== 'admin') {
             showToast('error', 'Unauthorized', 'You cannot edit this post');
             setTimeout(() => window.location.href = '/', 1500);
             return;

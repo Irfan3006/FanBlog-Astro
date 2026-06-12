@@ -1,4 +1,22 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4oM5SX4wl7izGGrmUP87wQBAXhoWeJNcIuKBYJG7b0xruD-Vgj9kBcPpRBZkvE-6k/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYZkbFsYsmrPlpmoT1noIjD_RR4q7gN0IE7w63VvT051-gb03J-g-dlo4QnK7boN15/exec';
+
+// Client request security signature generators
+const _sKey = (() => {
+  const parts = ['f4nb10g', 'p4y104d', 'h4rd3n1ng', 's3cr3t'];
+  return parts.reverse().join('_');
+})();
+
+async function computeHash(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function generateClientSignature(payloadObj, timestamp) {
+  const rawMessage = JSON.stringify(payloadObj) + timestamp + _sKey;
+  return await computeHash(rawMessage);
+}
 
 function sanitizeHTML(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -58,7 +76,15 @@ class API {
       } else {
         options.method = 'POST';
         options.headers = { 'Content-Type': 'text/plain;charset=utf-8' };
-        options.body = JSON.stringify(data);
+        
+        const timestamp = String(Date.now());
+        const signature = await generateClientSignature(data, timestamp);
+        const securedData = {
+          ...data,
+          _t: timestamp,
+          _sig: signature
+        };
+        options.body = JSON.stringify(securedData);
       }
 
       const response = await fetch(url, options);

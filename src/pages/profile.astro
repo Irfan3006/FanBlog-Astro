@@ -145,20 +145,20 @@ import Layout from '../layouts/Layout.astro';
     <script is:inline>
     document.addEventListener('DOMContentLoaded', async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const profileUserId = urlParams.get('user');
+      const profileUsername = urlParams.get('user');
       const currentUser = Auth.getSession();
 
       let isOwner = false;
-      let targetUserId = null;
+      let targetUsername = null;
 
       // Determine which profile to show
-      if (profileUserId) {
-        // Public profile: viewing someone's profile via ?user=ID
-        targetUserId = profileUserId;
-        isOwner = currentUser && currentUser.id === profileUserId;
+      if (profileUsername) {
+        // Public profile: viewing someone's profile via ?user=username
+        targetUsername = profileUsername;
+        isOwner = currentUser && currentUser.username === profileUsername;
       } else if (currentUser) {
         // No ?user param but logged in: show own profile
-        targetUserId = currentUser.id;
+        targetUsername = currentUser.username;
         isOwner = true;
       } else {
         // Not logged in and no ?user param: redirect to login
@@ -173,13 +173,12 @@ import Layout from '../layouts/Layout.astro';
 
       if (postsRes.success) {
         // Find posts by this user
-        userPosts = postsRes.data.filter(p => p.author_id === targetUserId);
+        userPosts = postsRes.data.filter(p => p.author_name === targetUsername);
 
         // Extract profile info from any of the user's posts
         if (userPosts.length > 0) {
           const firstPost = userPosts[0];
           profileData = {
-            id: firstPost.author_id,
             username: firstPost.author_name,
             avatar: firstPost.author_avatar,
             bio: firstPost.author_bio

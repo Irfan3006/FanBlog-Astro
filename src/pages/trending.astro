@@ -297,7 +297,7 @@ import Layout from '../layouts/Layout.astro';
                 <div class="card-body p-0 d-flex gap-3 align-items-center">
                   <div class="flex-grow-1">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                      <a href="/profile?user=${encodeURIComponent(post.author_id)}" class="d-flex align-items-center gap-2 text-decoration-none hover-accent position-relative" style="z-index: 2;">
+                      <a href="/profile?user=${encodeURIComponent(post.author_name)}" class="d-flex align-items-center gap-2 text-decoration-none hover-accent position-relative" style="z-index: 2;">
                         <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img" style="width:24px;height:24px;" referrerpolicy="no-referrer">
                         <span class="text-white small fw-bold hover-accent">${escapeHTML(post.author_name)}</span>
                       </a>

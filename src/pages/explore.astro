@@ -185,7 +185,7 @@ import Layout from '../layouts/Layout.astro';
                 <p class="text-muted small flex-grow-1">${escapeHTML(excerpt)}</p>
                 <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top border-secondary border-opacity-10">
                   <div class="d-flex align-items-center">
-                    <a href="/profile?user=${encodeURIComponent(post.author_id)}" class="d-flex align-items-center text-decoration-none hover-accent position-relative" style="z-index: 2;">
+                    <a href="/profile?user=${encodeURIComponent(post.author_name)}" class="d-flex align-items-center text-decoration-none hover-accent position-relative" style="z-index: 2;">
                       <img src="${escapeHTML(post.author_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author_name)}`)}" class="rounded-circle-img me-2" style="width:25px;height:25px;" referrerpolicy="no-referrer">
                       <div class="small lh-1">
                         <span class="text-white d-block fw-600 mb-1 hover-accent">${escapeHTML(post.author_name)}</span>
