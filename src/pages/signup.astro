@@ -34,6 +34,12 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div id="auth-alert" class="alert d-none animate__animated animate__fadeIn" role="alert"></div>
       <form id="signupForm">
+        <!-- Honeypot anti-spam: invisible to humans, bots will fill it -->
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <input type="text" name="company" id="hp-company" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" id="signup-loaded-at" value="">
+
         <div class="mb-3">
           <label class="form-label fw-500">Nama Pengguna</label>
           <div class="input-group">
@@ -77,6 +83,11 @@ import Layout from '../layouts/Layout.astro';
     <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       Auth.checkAuthRedirect();
+
+      // Record page load time for timing-based anti-spam
+      const loadedAtField = document.getElementById('signup-loaded-at');
+      if (loadedAtField) loadedAtField.value = Date.now().toString();
+
       const togglePassword = document.querySelector('#togglePassword');
       const password = document.querySelector('#password');
       togglePassword.addEventListener('click', () => {
@@ -88,6 +99,22 @@ import Layout from '../layouts/Layout.astro';
 
       document.getElementById('signupForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Anti-spam: honeypot check
+        const hp = document.getElementById('hp-company');
+        if (hp && hp.value) {
+          // Bot detected — silently pretend success
+          Swal.fire({ icon: 'success', title: 'Pendaftaran berhasil!', text: 'Silakan login.', confirmButtonColor: 'var(--accent)' });
+          return;
+        }
+
+        // Anti-spam: reject if submitted < 2 seconds after page load
+        const loadedAt = parseInt(document.getElementById('signup-loaded-at').value || '0', 10);
+        if (loadedAt && (Date.now() - loadedAt < 2000)) {
+          Swal.fire({ icon: 'warning', title: 'Terlalu Cepat', text: 'Mohon tunggu sebentar.', confirmButtonColor: 'var(--accent)' });
+          return;
+        }
+
         const submitBtn = document.getElementById('submitBtn');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const user = document.getElementById('username').value.trim();

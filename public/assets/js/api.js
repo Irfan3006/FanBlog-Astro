@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnyPc9V26sGqtLUKTzIX7C-81rNaYYXO0TTIgB-Q3LPdQ6oRr5koFJeIjzPFQu2AVAeA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJuRG-n3UE-SEQrskpsakMqrMVxIxjHQSvT69qmv4KSH_ENt9Il87d3UeQNBs2Z2Yd5A/exec';
 
 function sanitizeHTML(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -105,7 +105,9 @@ class API {
     return this.request('GET', { action: 'get_posts', post_id: id });
   }
 
-  static async getUsers(forceRefresh = false) {
+  static async getUsers(adminId, forceRefresh = false) {
+    if (!adminId) return { success: false, message: 'Admin ID required' };
+    
     const cacheKey = 'users_cache';
     const cached = sessionStorage.getItem(cacheKey);
     const cacheTime = sessionStorage.getItem(cacheKey + '_time');
@@ -114,7 +116,7 @@ class API {
       return JSON.parse(cached);
     }
 
-    const res = await this.request('GET', { action: 'get_users' });
+    const res = await this.request('GET', { action: 'get_users', admin_id: adminId });
     if (res.success) {
       sessionStorage.setItem(cacheKey, JSON.stringify(res));
       sessionStorage.setItem(cacheKey + '_time', Date.now());
@@ -163,6 +165,11 @@ class API {
   static async deleteUser(id, adminId) {
     this.clearCache();
     return this.request('POST', { action: 'delete_user', id, admin_id: adminId });
+  }
+
+  static async cleanupSpam(adminId) {
+    this.clearCache();
+    return this.request('POST', { action: 'cleanup_spam', admin_id: adminId });
   }
 
   static async updateProfile(profileData) {

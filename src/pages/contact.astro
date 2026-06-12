@@ -342,6 +342,12 @@ import Layout from '../layouts/Layout.astro';
               <div class="col-md-7">  
                 <div class="contact-form-wrapper">
                   <form id="contactForm" class="minimal-form">
+                    <!-- Honeypot field: invisible to humans, bots will fill it -->
+                    <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                      <input type="text" name="website" id="hp-website" tabindex="-1" autocomplete="off">
+                    </div>
+                    <input type="hidden" id="form-loaded-at" value="">
+
                     <div class="form-group mb-4">
                       <label for="nama" class="form-label-minimal">Nama Lengkap</label>
                       <div class="input-wrapper-minimal">
@@ -396,8 +402,45 @@ import Layout from '../layouts/Layout.astro';
         const form = document.getElementById('contactForm');
         if (!form) return;
 
+        // Record when the form page loaded (bots submit instantly)
+        const loadedAtField = document.getElementById('form-loaded-at');
+        if (loadedAtField) loadedAtField.value = Date.now().toString();
+
+        // Cooldown tracking: prevent rapid re-submissions
+        let lastSubmitTime = 0;
+        const SUBMIT_COOLDOWN_MS = 60000; // 60 seconds between submissions
+
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
+
+          // --- Anti-spam: Honeypot check ---
+          const honeypot = document.getElementById('hp-website');
+          if (honeypot && honeypot.value) {
+            // Bot detected — silently pretend success
+            if (typeof Swal !== 'undefined') {
+              Swal.fire({ icon: 'success', title: 'Pesan Terkirim!', text: 'Terima kasih.', confirmButtonColor: 'var(--accent)' });
+            }
+            form.reset();
+            return;
+          }
+
+          // --- Anti-spam: Timestamp check (reject if < 3 seconds after page load) ---
+          const loadedAt = parseInt(loadedAtField ? loadedAtField.value : '0', 10);
+          if (loadedAt && (Date.now() - loadedAt < 3000)) {
+            if (typeof Swal !== 'undefined') {
+              Swal.fire({ icon: 'warning', title: 'Terlalu Cepat', text: 'Mohon tunggu sebentar sebelum mengirim pesan.', confirmButtonColor: 'var(--accent)' });
+            }
+            return;
+          }
+
+          // --- Anti-spam: Cooldown check ---
+          if (Date.now() - lastSubmitTime < SUBMIT_COOLDOWN_MS) {
+            const remaining = Math.ceil((SUBMIT_COOLDOWN_MS - (Date.now() - lastSubmitTime)) / 1000);
+            if (typeof Swal !== 'undefined') {
+              Swal.fire({ icon: 'info', title: 'Mohon Tunggu', text: `Anda baru saja mengirim pesan. Coba lagi dalam ${remaining} detik.`, confirmButtonColor: 'var(--accent)' });
+            }
+            return;
+          }
 
           const nameInput = document.getElementById('nama');
           const emailInput = document.getElementById('email');
@@ -463,6 +506,8 @@ import Layout from '../layouts/Layout.astro';
               },
               body: params.toString()
             });
+
+            lastSubmitTime = Date.now();
 
             if (typeof Swal !== 'undefined') {
               Swal.fire({
