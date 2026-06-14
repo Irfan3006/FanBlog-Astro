@@ -900,7 +900,7 @@ let recommended = [...related, ...others].slice(0, 3);
           });
 
           if (result.isConfirmed) {
-            const res = await API.deletePost(id, user.id);
+            const res = await API.deletePost(id);
             if (res.success) {
               showToast("success", "Postingan dihapus");
               setTimeout(() => {

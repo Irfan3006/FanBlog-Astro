@@ -134,9 +134,11 @@ import Layout from '../layouts/Layout.astro';
         const alertBox = document.getElementById('auth-alert');
         if(res.success) {
           alertBox.className = 'alert alert-success animate__animated animate__fadeIn';
-          alertBox.textContent = 'Pendaftaran berhasil! Silakan login.';
+          alertBox.textContent = 'Pendaftaran berhasil! Mengalihkan...';
           alertBox.classList.remove('d-none');
-          setTimeout(() => { window.location.href = '/login'; }, 1500);
+          // Auto-login: store session with token from server
+          Auth.setSession(res.data, res.token);
+          setTimeout(() => { window.location.href = '/'; }, 1500);
         } else {
           alertBox.className = 'alert alert-danger animate__animated animate__shakeX';
           alertBox.textContent = res.message || 'Pendaftaran Gagal. Silakan coba lagi.';

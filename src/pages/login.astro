@@ -102,7 +102,7 @@ import Layout from '../layouts/Layout.astro';
           alertBox.className = 'alert alert-success animate__animated animate__fadeIn';
           alertBox.textContent = 'Login berhasil! Mengalihkan...';
           alertBox.classList.remove('d-none');
-          Auth.setSession(res.data);
+          Auth.setSession(res.data, res.token);
           setTimeout(() => {
             if (res.data.role === 'admin') { window.location.href = '/admin'; }
             else { window.location.href = '/'; }

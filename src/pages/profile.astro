@@ -260,7 +260,7 @@ import Layout from '../layouts/Layout.astro';
           const avatar = document.getElementById('input-avatar').value;
           const bio = document.getElementById('input-bio').value;
 
-          const res = await API.updateProfile({ id: currentUser.id, avatar: avatar, bio: bio });
+          const res = await API.updateProfile({ avatar: avatar, bio: bio });
           if (res.success) {
             showToast('success', 'Profile Updated');
             currentUser.avatar = avatar;
@@ -349,7 +349,7 @@ import Layout from '../layouts/Layout.astro';
           });
 
           if (result.isConfirmed) {
-            const res = await API.deletePost(id, currentUser.id);
+            const res = await API.deletePost(id);
             if (res.success) {
               showToast('success', 'Postingan dihapus');
               setTimeout(() => { window.location.reload(); }, 1000);

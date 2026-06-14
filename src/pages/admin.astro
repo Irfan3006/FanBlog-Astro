@@ -206,7 +206,7 @@ import Layout from "../layouts/Layout.astro";
         let posts = [];
 
         async function loadData() {
-          const [usersRes, postsRes] = await Promise.all([API.getUsers(user.id), API.getPosts()]);
+          const [usersRes, postsRes] = await Promise.all([API.getUsers(), API.getPosts()]);
           if (usersRes.success) {
             users = usersRes.data;
             document.getElementById("stat-users").innerText = users.length;
@@ -288,7 +288,7 @@ import Layout from "../layouts/Layout.astro";
             cancelButtonText: "Batal",
           });
           if (result.isConfirmed) {
-            const res = await API.deleteUser(id, user.id);
+            const res = await API.deleteUser(id);
             if (res.success) {
               showToast("success", "Pengguna berhasil dihapus");
               loadData();
@@ -309,7 +309,7 @@ import Layout from "../layouts/Layout.astro";
             cancelButtonText: "Batal",
           });
           if (result.isConfirmed) {
-            const res = await API.deletePost(id, user.id);
+            const res = await API.deletePost(id);
             if (res.success) {
               showToast("success", "Postingan berhasil dihapus");
               loadData();
@@ -335,7 +335,7 @@ import Layout from "../layouts/Layout.astro";
               btnCleanup.disabled = true;
               btnCleanup.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Memindai...`;
               
-              const res = await API.cleanupSpam(user.id);
+              const res = await API.cleanupSpam();
               
               btnCleanup.disabled = false;
               btnCleanup.innerHTML = "Scan & Bersihkan";
