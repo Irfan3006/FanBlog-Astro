@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypYqkxIIMDWaF7heSyxzygLEoE_2FMrvRYuESdLwOyBMKlcTInLpjlu8ebSEp7wXQwqg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLPz91wn_4278cVqdoUeussK2VWYDjknzPFkXlXpwvFv4TN_BLg9KZ_kfTPdZ3VtSdKA/exec';
 
 
 function sanitizeHTML(html) {
@@ -349,6 +349,84 @@ class Auth {
   }
 }
 
+function showPostSkeletonLoader() {
+  let overlay = document.getElementById('skeleton-page-overlay');
+  if (!overlay) {
+    const html = `
+      <div id="skeleton-page-overlay" class="skeleton-page-overlay">
+        <!-- Navbar Skeleton -->
+        <div class="skeleton-nav">
+          <div class="skeleton-nav-content container">
+            <div class="skeleton-brand skeleton-box"></div>
+            <div class="skeleton-nav-links">
+              <div class="skeleton-nav-link skeleton-box"></div>
+              <div class="skeleton-nav-link skeleton-box"></div>
+              <div class="skeleton-nav-link skeleton-box"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Skeleton -->
+        <div class="container my-5" style="max-width: 850px;">
+          <!-- Breadcrumb Skeleton -->
+          <div class="skeleton-breadcrumb mb-4">
+            <div class="skeleton-box" style="width: 150px; height: 16px;"></div>
+          </div>
+          
+          <!-- Post Header Skeleton -->
+          <div class="text-center mb-5">
+            <div class="skeleton-box mb-3 skeleton-badge" style="width: 100px; height: 28px; border-radius: 10px;"></div>
+            <div class="skeleton-box mb-3 skeleton-title" style="width: 80%; height: 45px; border-radius: 12px;"></div>
+            <div class="skeleton-box mb-4 skeleton-title" style="width: 60%; height: 35px; border-radius: 12px; display: inline-block;"></div>
+            
+            <!-- Meta info skeleton -->
+            <div class="d-flex align-items-center justify-content-center gap-3">
+              <div class="skeleton-box skeleton-avatar" style="width: 32px; height: 32px; border-radius: 50%;"></div>
+              <div class="skeleton-box" style="width: 120px; height: 16px;"></div>
+              <div class="skeleton-box" style="width: 100px; height: 16px;"></div>
+            </div>
+          </div>
+
+          <!-- Hero Image Skeleton -->
+          <div class="skeleton-hero-img skeleton-box mb-5" style="width: 100%; aspect-ratio: 16/9; border-radius: 24px; height: auto;"></div>
+
+          <!-- Body Text Skeletons -->
+          <div class="skeleton-body-content">
+            <div class="skeleton-box mb-3" style="width: 100%; height: 16px;"></div>
+            <div class="skeleton-box mb-3" style="width: 96%; height: 16px;"></div>
+            <div class="skeleton-box mb-3" style="width: 98%; height: 16px;"></div>
+            <div class="skeleton-box mb-3" style="width: 92%; height: 16px;"></div>
+            <div class="skeleton-box mb-4" style="width: 65%; height: 16px;"></div>
+            
+            <div class="skeleton-box mb-3" style="width: 100%; height: 24px; margin-top: 35px; border-radius: 8px;"></div>
+            <div class="skeleton-box mb-3" style="width: 40%; height: 24px; border-radius: 8px;"></div>
+            
+            <div class="skeleton-box mb-3" style="width: 98%; height: 16px; margin-top: 20px;"></div>
+            <div class="skeleton-box mb-3" style="width: 95%; height: 16px;"></div>
+            <div class="skeleton-box mb-3" style="width: 97%; height: 16px;"></div>
+            <div class="skeleton-box mb-4" style="width: 45%; height: 16px;"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', html);
+    overlay = document.getElementById('skeleton-page-overlay');
+  }
+  
+  // Force reflow
+  overlay.offsetHeight;
+  overlay.classList.add('active');
+}
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    const overlay = document.getElementById('skeleton-page-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof AOS !== 'undefined') {
     AOS.init({ once: true, offset: 50 });
@@ -358,27 +436,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
-    if (link && Auth.isLoggedIn()) {
+    if (link) {
       const href = link.getAttribute('href');
-      if (href && (href.includes('login') || href.includes('signup'))) {
-        e.preventDefault();
-        const user = Auth.getSession();
-        Swal.fire({
-          icon: 'info',
-          title: `Halo, ${escapeHTML(user.username)}!`,
-          text: 'Anda sudah masuk ke akun Anda. Ingin menulis sesuatu hari ini?',
-          showCancelButton: true,
-          confirmButtonColor: 'var(--accent)',
-          cancelButtonColor: 'var(--stroke)',
-          confirmButtonText: '<i class="bi bi-pencil-square me-2"></i> Tulis Postingan',
-          cancelButtonText: 'Ke Profil Saya'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '/create-post';
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            window.location.href = '/profile';
-          }
-        });
+      
+      // Intercept navigation to post pages
+      if (href && (href.startsWith('/post/') || href.includes('/post/'))) {
+        if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && link.target !== '_blank') {
+          e.preventDefault();
+          showPostSkeletonLoader();
+          setTimeout(() => {
+            window.location.href = href;
+          }, 50);
+          return;
+        }
+      }
+
+      if (Auth.isLoggedIn()) {
+        if (href && (href.includes('login') || href.includes('signup'))) {
+          e.preventDefault();
+          const user = Auth.getSession();
+          Swal.fire({
+            icon: 'info',
+            title: `Halo, ${escapeHTML(user.username)}!`,
+            text: 'Anda sudah masuk ke akun Anda. Ingin menulis sesuatu hari ini?',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--accent)',
+            cancelButtonColor: 'var(--stroke)',
+            confirmButtonText: '<i class="bi bi-pencil-square me-2"></i> Tulis Postingan',
+            cancelButtonText: 'Ke Profil Saya'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = '/create-post';
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              window.location.href = '/profile';
+            }
+          });
+        }
       }
     }
   });
