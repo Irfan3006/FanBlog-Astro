@@ -181,7 +181,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5" data-aos="fade-up">
       <div>
         <h2 class="display-5 fw-bold mb-0">Jelajahi <span class="text-primary">Cerita.</span></h2>
-        <p class="text-muted mt-2">Dapatkan inspirasi dari berbagai penulis pilihan kami.</p>
+        <p class="text-muted mt-2">Dapatkan inspirasi dari artikel terbaru dari komunitas kami.</p>
       </div>
       <div class="mt-4 mt-md-0" style="min-width: 300px;">
         <div class="input-group shadow-sm">
@@ -315,18 +315,9 @@ import Layout from '../layouts/Layout.astro';
       let allPosts = [];
 
       function getDefaultPosts() {
-        const pinnedSlugs = [
-          'profil-irfan-syarifudin-mahasiswa-teknik-komputer-dan-penggiat-keamanan-siber-id_9q',
-          'panduan-lengkap-cara-mulai-menulis-dan-berbagi-cerita-di-fanblog-id_8e',
-        ];
-        const pinnedPosts = pinnedSlugs.map(slug => allPosts.find(p => p.slug === slug)).filter(Boolean);
-        const latestPost = allPosts.find(p => !pinnedSlugs.includes(p.slug));
-        
-        const displayPosts = [];
-        if (latestPost) displayPosts.push(latestPost);
-        displayPosts.push(...pinnedPosts);
-        
-        return displayPosts;
+        return [...allPosts]
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .slice(0, 3);
       }
 
       try {
@@ -405,7 +396,10 @@ import Layout from '../layouts/Layout.astro';
           return;
         }
         const filtered = allPosts.filter(p => p.title.toLowerCase().includes(query) || p.content.toLowerCase().includes(query));
-        renderPosts(filtered.slice(0, 3));
+        const sortedFiltered = [...filtered]
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .slice(0, 3);
+        renderPosts(sortedFiltered);
       }, 250));
     });
   </script>
